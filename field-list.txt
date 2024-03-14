@@ -1,0 +1,45 @@
+Fields
+
+- Title of Activity
+- Start Date
+- End Date
+- Division
+- Cluster/Unit/Section
+- Program Manager/Coordinator/Section/Unit Head
+- Internal Participants (CHDNM Personnel)
+	- MSD Staff
+	- LHSD Staff
+	- RLED Staff
+	- All Plantilla Personnel
+	- All COS Personnel
+	- All CHDNM Perosnnel
+- Internal Participants (P/CDOHO Personnel)
+	- All DMOs
+	- DMOs (Bukidnon)
+	- DMOs (CDO)
+	- DMOs (Camiguin)
+	- DMOs (Iligan)
+	- DMOs (LDN)
+	- DMOs (Mis Occ)
+	- DMOs (Mis Or)
+- Internal Participants (Deployed Personnel)
+	- HRH (Bukidnon)
+	- HRH (CDO)
+	- HRH (Camiguin)
+	- HRH (Iligan)
+	- HRH (LDN)
+	- HRH (Mis Occ)
+	- HRH (Mis Or)
+- External Participants
+	- LGUs
+	- LGU Hospitals
+	- Private Hospitals
+	- Government Agencies
+	- Private Sector
+- IF LGUs, What Province/HUC/ICC
+- IF Province, What Cities/Municipalities
+- IF LGUs, What personnel
+- IF LGU Hospitals, Name of Hospitals
+- IF Private Hospitals, Name of Hospitals
+- IF Government Agencies, Name of Agency
+- IF Private Sector, Name of Organization

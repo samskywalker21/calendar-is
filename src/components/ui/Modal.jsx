@@ -1,13 +1,14 @@
 import React, { forwardRef, useState } from 'react';
+
 import {
     Button,
     Dialog,
     DialogActions,
     DialogContent,
-    DialogContentText,
     DialogTitle,
     Slide,
 } from '@mui/material';
+
 import EventForm from './EventForm';
 
 const Transition = forwardRef(function Transition(props, ref) {
@@ -24,12 +25,10 @@ function Modal(props) {
                 TransitionComponent={Transition}
                 keepMounted
                 onClose={handleClick}
-                aria-describedby='alert-dialog-slide-description'
             >
                 <DialogContent>
-                    <DialogTitle>Add Event</DialogTitle>
-                    <EventForm />
-                    <DialogContentText></DialogContentText>
+                    <DialogTitle>Add Event/Training</DialogTitle>
+                    <EventForm handleClick={handleClick} />
                 </DialogContent>
             </Dialog>
         </>
