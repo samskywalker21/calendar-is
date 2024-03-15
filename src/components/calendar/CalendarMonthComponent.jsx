@@ -1,10 +1,19 @@
 import React from 'react';
+import { useContext } from 'react';
+import EventContext from '../context/EventContext';
 
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import Modal from '../ui/Modal';
 
-function CalendarMonthComponent(props) {
-    console.log(props.events);
+function CalendarMonthComponent() {
+    const eventObj = useContext(EventContext);
+
+    const { events } = eventObj;
+
+    const eventClickTest = (info) => {
+        console.log(info.event);
+    };
 
     return (
         <>
@@ -15,12 +24,8 @@ function CalendarMonthComponent(props) {
                 initialView='dayGridMonth'
                 displayEventEnd={false}
                 displayEventTime={false}
-                events={props.events}
-                eventClick={(info) => {
-                    info.jsEvent.preventDefault();
-
-                    console.log(info.event.extendedProps.description);
-                }}
+                events={events}
+                eventClick={eventClickTest}
             />
         </>
     );
