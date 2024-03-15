@@ -1,5 +1,5 @@
 import React from 'react';
-import { useContext, useRef } from 'react';
+import { useContext } from 'react';
 import EventContext from '../context/EventContext';
 
 import { Stack, TextField, MenuItem, Button } from '@mui/material';
@@ -11,13 +11,6 @@ import dayjs from 'dayjs';
 
 const EventForm = ({ handleClick }) => {
     const eventObj = useContext(EventContext);
-
-    const titleRef = useRef('');
-    const startDateRef = useRef('');
-    const endDateRef = useRef('');
-    const divRef = useRef('');
-    const csuRef = useRef('');
-    const csuHeadRef = useRef('');
 
     const addEventHandler = (e) => {
         e.preventDefault();
@@ -70,29 +63,27 @@ const EventForm = ({ handleClick }) => {
                         id='titleId'
                         name='title'
                         label='Event/Training Title'
-                        ref={titleRef}
+                        required
                         defaultValue=''
                     />
                     <DateTimePicker
                         label='Start Date'
                         name='startDate'
                         id='startDateId'
-                        ref={startDateRef}
-                        defaultValue=''
+                        required
                     />
                     <DateTimePicker
                         label='End Date'
                         name='endDate'
                         id='endDateId'
-                        ref={endDateRef}
-                        defaultValue=''
+                        required
                     />
                     <TextField
                         id='divisionId'
                         name='division'
                         label='Division'
                         select
-                        ref={divRef}
+                        required
                         defaultValue=''
                     >
                         <MenuItem value='ORD/ARD'>ORD/ARD</MenuItem>
@@ -105,7 +96,7 @@ const EventForm = ({ handleClick }) => {
                         name='csu'
                         label='Cluster/Section/Unit'
                         select
-                        ref={csuRef}
+                        required
                         defaultValue=''
                     >
                         <MenuItem value='Test 1'>Test 1</MenuItem>
@@ -118,7 +109,7 @@ const EventForm = ({ handleClick }) => {
                         id='csuHeadId'
                         name='csuHead'
                         label='Program Manager/C/S/U Head'
-                        ref={csuHeadRef}
+                        required
                         defaultValue=''
                     />
                     <Stack spacing={1}>

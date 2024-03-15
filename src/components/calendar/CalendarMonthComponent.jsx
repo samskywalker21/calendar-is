@@ -4,7 +4,7 @@ import EventContext from '../context/EventContext';
 
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import Modal from '../ui/Modal';
+import Modal from '../ui/EventFormModal';
 
 function CalendarMonthComponent() {
     const eventObj = useContext(EventContext);

@@ -8,7 +8,7 @@ import {
     Typography,
     CssBaseline,
 } from '@mui/material';
-import Modal from '../ui/Modal';
+import Modal from '../ui/EventFormModal';
 
 function Header() {
     const [open, isOpen] = useState(false);
