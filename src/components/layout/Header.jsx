@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import {
     Stack,
     Button,
@@ -9,6 +10,8 @@ import {
     CssBaseline,
 } from '@mui/material';
 import Modal from '../ui/EventFormModal';
+
+import { Link } from 'react-router-dom';
 
 function Header() {
     const [open, isOpen] = useState(false);
@@ -22,17 +25,24 @@ function Header() {
             <Modal open={open} handleClick={handleClick} />
             <Box sx={{ flexGrow: 1 }}>
                 <CssBaseline>
-                    <AppBar position='static'>
+                    <AppBar position='sticky'>
                         <Toolbar>
                             <Typography
                                 variant='h6'
                                 component={'div'}
                                 sx={{ flexGrow: 1 }}
                             >
-                                Training Calendar
+                                <Link to={'/'}>Training Calendar</Link>
                             </Typography>
                             <Button color='inherit' onClick={handleClick}>
                                 Add Event/Training
+                            </Button>
+                            <Button
+                                color='inherit'
+                                component={Link}
+                                to='events'
+                            >
+                                Event List
                             </Button>
                         </Toolbar>
                     </AppBar>

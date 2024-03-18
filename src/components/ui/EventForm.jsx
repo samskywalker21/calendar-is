@@ -14,6 +14,8 @@ const EventForm = ({ handleClick }) => {
 
     const addEventHandler = (e) => {
         e.preventDefault();
+
+        // Fields Test
         // console.log(e);
         // for (let i = 0; i < e.target.length; i++) {
         //     if (e.target[i].name != '')
@@ -36,7 +38,7 @@ const EventForm = ({ handleClick }) => {
         const newEvent = {
             title: e.target[0].value,
             start: dayjs(e.target[2].value).toDate(),
-            end: dayjs(e.target[5].value).toDate(),
+            end: dayjs(e.target[4].value).toDate(),
             backgroundColor: color,
             extendedProps: {
                 division: e.target[8].value,
@@ -45,7 +47,6 @@ const EventForm = ({ handleClick }) => {
             },
         };
         eventObj.addEvent(newEvent);
-        // console.log(newEvent);
 
         handleClick();
     };

@@ -1,8 +1,10 @@
 import { useState } from 'react';
 
 import EventContext from './components/context/EventContext';
-import CalendarMonthComponent from './components/calendar/CalendarMonthComponent';
 import Header from './components/layout/Header';
+import Wrapper from './components/layout/Wrapper';
+
+import { Outlet } from 'react-router-dom';
 
 function App() {
     const [events, setEvents] = useState([{}]);
@@ -18,7 +20,9 @@ function App() {
         <>
             <EventContext.Provider value={eventObj}>
                 <Header />
-                <CalendarMonthComponent />
+                <Wrapper>
+                    <Outlet />
+                </Wrapper>
             </EventContext.Provider>
         </>
     );

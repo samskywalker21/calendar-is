@@ -4,7 +4,6 @@ import EventContext from '../context/EventContext';
 
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import Modal from '../ui/EventFormModal';
 
 function CalendarMonthComponent() {
     const eventObj = useContext(EventContext);
@@ -26,6 +25,11 @@ function CalendarMonthComponent() {
                 displayEventTime={false}
                 events={events}
                 eventClick={eventClickTest}
+                headerToolbar={{
+                    left: 'prev,next,today',
+                    center: 'title',
+                    right: 'dayGridDay,dayGridWeek,dayGridMonth',
+                }}
             />
         </>
     );
