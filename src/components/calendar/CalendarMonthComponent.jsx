@@ -8,7 +8,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 function CalendarMonthComponent() {
     const eventObj = useContext(EventContext);
 
-    const { events } = eventObj;
+    const events = eventObj.getEvents();
 
     const eventClickTest = (info) => {
         console.log(info.event);

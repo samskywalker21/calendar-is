@@ -10,13 +10,14 @@ import {
 } from '@mui/material';
 
 import EventForm from './EventForm';
+import EventFormEdit from './EventFormEdit';
 
 const Transition = forwardRef(function Transition(props, ref) {
     return <Slide direction='down' ref={ref} {...props} />;
 });
 
-function Modal(props) {
-    const { open, handleClick } = props;
+function EventFormModal(props) {
+    const { open, handleClick, isEdit } = props;
 
     return (
         <>
@@ -28,11 +29,18 @@ function Modal(props) {
             >
                 <DialogContent>
                     <DialogTitle>Add Event/Training</DialogTitle>
-                    <EventForm handleClick={handleClick} />
+                    {isEdit == false ? (
+                        <EventForm handleClick={handleClick} />
+                    ) : (
+                        <EventFormEdit
+                            handleClick={handleClick}
+                            id={props._id}
+                        />
+                    )}
                 </DialogContent>
             </Dialog>
         </>
     );
 }
 
-export default Modal;
+export default EventFormModal;

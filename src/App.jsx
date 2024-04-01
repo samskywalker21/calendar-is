@@ -10,11 +10,55 @@ function App() {
     const [events, setEvents] = useState([{}]);
 
     const addEvent = (event) => {
-        const newEvents = [...events, event];
+        const cleanEvents = events.filter((row) => {
+            if (Object.hasOwn(row, 'title')) {
+                return row;
+            }
+        });
+
+        const newEvents = [...cleanEvents, event];
         setEvents(newEvents);
     };
 
-    const eventObj = { events, addEvent };
+    const deleteEvent = (id) => {
+        const cleanEvents = events.filter((row) => {
+            if (Object.hasOwn(row, 'title')) {
+                return row;
+            }
+        });
+
+        const newEvents = cleanEvents.filter((row) => {
+            if (row.extendedProps._id != id) return row;
+        });
+
+        setEvents(newEvents);
+    };
+
+    const getEvents = () => {
+        const cleanEvents = events.filter((row) => {
+            if (Object.hasOwn(row, 'title')) {
+                return row;
+            }
+        });
+
+        return cleanEvents;
+    };
+
+    const filterEvents = (id) => {
+        const cleanEvents = events.filter((row) => {
+            if (Object.hasOwn(row, 'title')) {
+                return row;
+            }
+        });
+
+        const event = cleanEvents.filter((row) => {
+            if (row.extendedProps._id == id) return row;
+        });
+
+        return event;
+    };
+
+    const eventObj = { getEvents, addEvent, deleteEvent, filterEvents };
 
     return (
         <>

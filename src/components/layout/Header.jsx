@@ -9,7 +9,7 @@ import {
     Typography,
     CssBaseline,
 } from '@mui/material';
-import Modal from '../ui/EventFormModal';
+import EventFormModal from '../ui/EventFormModal';
 
 import { Link } from 'react-router-dom';
 
@@ -22,7 +22,11 @@ function Header() {
 
     return (
         <>
-            <Modal open={open} handleClick={handleClick} />
+            <EventFormModal
+                open={open}
+                handleClick={handleClick}
+                isEdit={false}
+            />
             <Box sx={{ flexGrow: 1 }}>
                 <CssBaseline>
                     <AppBar position='sticky'>
@@ -36,6 +40,9 @@ function Header() {
                             </Typography>
                             <Button color='inherit' onClick={handleClick}>
                                 Add Event/Training
+                            </Button>
+                            <Button color='inherit' component={Link} to='/'>
+                                Event Calendar
                             </Button>
                             <Button
                                 color='inherit'

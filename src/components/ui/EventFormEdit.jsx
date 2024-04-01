@@ -16,8 +16,12 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs from 'dayjs';
 
-const EventForm = ({ handleClick }) => {
+const EventFormEdit = ({ handleClick, id }) => {
     const eventObj = useContext(EventContext);
+
+    const eventDetails = eventObj.filterEvents(id);
+
+    console.log(eventDetails);
 
     //Field Refs
     const titleRef = useRef('');
@@ -90,9 +94,8 @@ const EventForm = ({ handleClick }) => {
                         id='titleId'
                         name='title'
                         label='Event/Training Title'
-                        required
-                        defaultValue=''
                         inputRef={titleRef}
+                        required
                     />
                     <DateTimePicker
                         label='Start Date'
@@ -173,4 +176,4 @@ const EventForm = ({ handleClick }) => {
     );
 };
 
-export default EventForm;
+export default EventFormEdit;
