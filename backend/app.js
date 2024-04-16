@@ -1,17 +1,27 @@
+//Imports
 const express = require('express');
 const mongoose = require('mongoose');
+const eventRoute = require('./routes/EventRoute');
+const cors = require('cors');
+
+//Var Decs
 const app = express();
 const port = 3000;
 
-app.use((req, res, next) => {
-    app.json();
-    next();
-});
+//Middleware
+app.use(cors());
+app.use(express.json()); //JSON Parsing
 
-app.get('/', (req, res, next) => {
-    res.send('It works!');
-});
+//Routes
+app.use('/event', eventRoute);
 
-app.listen(port, () => {
-    console.log('Server Started!');
-});
+//DB Connection
+if (mongoose.connect('mongodb://localhost:27017/calendarDB')) {
+    app.listen(port, () => {
+        console.log('Server Started!');
+    });
+} else {
+    console.log('No DB Connection');
+}
+
+//Server Start

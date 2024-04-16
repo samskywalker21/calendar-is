@@ -1,0 +1,10 @@
+title: String
+start: DayJS DateTime
+end: DayJS DateTime
+backgroundColor: String (Color)
+extendedProps: {
+    _id: String (UUIDv4)
+    division: String
+    csu: String
+    csuHead: String
+}
