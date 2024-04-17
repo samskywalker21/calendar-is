@@ -1,18 +1,12 @@
 import React from 'react';
 import { useContext } from 'react';
-import EventContext from '../context/EventContext';
+import EventContext from '../../context/EventContext';
 
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 
 function CalendarMonthComponent() {
     const eventObj = useContext(EventContext);
-
-    const events = eventObj.getEvents();
-
-    const eventClickTest = (info) => {
-        console.log(info.event);
-    };
 
     return (
         <>
@@ -23,8 +17,7 @@ function CalendarMonthComponent() {
                 initialView='dayGridMonth'
                 displayEventEnd={false}
                 displayEventTime={false}
-                events={events}
-                eventClick={eventClickTest}
+                events={eventObj.events}
                 headerToolbar={{
                     left: 'prev,next,today',
                     center: 'title',

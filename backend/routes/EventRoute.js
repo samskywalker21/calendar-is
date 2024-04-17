@@ -2,15 +2,12 @@ const express = require('express');
 const EventController = require('../controllers/EventController');
 const router = express.Router();
 
-router.get('/', (req, res, next) => {
-    res.send('You got it baby!');
-});
+router.get('/', EventController.getAllEvents);
 
-router.post('/', (req, res, next) => {
-    res.json({
-        message: 'Data Received',
-    });
-    EventController.addEvent(req.body);
-});
+router.get('/:id', EventController.getEvent);
+
+router.delete('/:id', EventController.deleteEvent);
+
+router.post('/', EventController.addEvent);
 
 module.exports = router;

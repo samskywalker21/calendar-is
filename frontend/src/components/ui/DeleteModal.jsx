@@ -1,7 +1,7 @@
 import React, { forwardRef, useContext, useEffect } from 'react';
 
 //Context
-import EventContext from '../context/EventContext';
+import EventContext from '../../context/EventContext';
 
 //Material UI
 import {

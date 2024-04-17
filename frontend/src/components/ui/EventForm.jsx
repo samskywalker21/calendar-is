@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { useContext } from 'react';
 
 // Context
-import EventContext from '../context/EventContext';
+import EventContext from '../../context/EventContext';
 
 //UUID
 import { v4 as uuidv4 } from 'uuid';
@@ -61,8 +61,8 @@ const EventForm = ({ handleClick }) => {
 
         const newEvent = {
             title: titleRef.current.value,
-            start: dayjs(startDateRef.current.value).toDate(),
-            end: dayjs(endDateRef.current.value).toDate(),
+            start: dayjs(startDateRef.current.value).toISOString(),
+            end: dayjs(endDateRef.current.value).toISOString(),
             backgroundColor: color,
             extendedProps: {
                 _id: uuidv4(),

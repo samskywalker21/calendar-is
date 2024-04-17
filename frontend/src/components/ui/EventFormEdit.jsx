@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { useContext } from 'react';
 
 // Context
-import EventContext from '../context/EventContext';
+import EventContext from '../../context/EventContext';
 
 //UUID
 import { v4 as uuidv4 } from 'uuid';
