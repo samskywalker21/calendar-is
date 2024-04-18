@@ -6,35 +6,31 @@ const getAllEvents = async (req, res, next) => {
 };
 
 const getEvent = async (req, res, next) => {
+    // res.send(req.params.id);
     const filteredEvent = await eventModel
-        .find({
-            extendedProps: {
-                _id: req.params.id,
-            },
-        })
+        .find({ _id: req.params.id })
         .exec()
         .then((data) => {
-            res.json(data);
+            return data;
         })
-        .catch(() => {
-            res.json({ message: 'Data found!' });
+        .catch((err) => {
+            return { message: 'Data not found!', err };
         });
+
+    res.json(filteredEvent);
 };
 
 const deleteEvent = async (req, res, next) => {
-    const id = req.params.id;
-    console.log(id);
-    try {
-        res.json(
-            await eventModel.deleteOne({
-                extendedProp: {
-                    _id: id,
-                },
-            })
-        );
-    } catch (e) {
-        console.log(e);
-    }
+    const deletedEvent = await eventModel
+        .deleteOne({ _id: req.params.id })
+        .then((data) => {
+            return data;
+        })
+        .catch((err) => {
+            return { message: 'Data not found!', err };
+        });
+
+    res.json(deletedEvent);
 };
 
 const addEvent = (req, res, next) => {

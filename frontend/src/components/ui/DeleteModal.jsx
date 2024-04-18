@@ -24,7 +24,6 @@ const DeleteModal = (props) => {
     const { open, handleClick, _id, title, message } = props;
 
     const handleClickDelete = () => {
-        console.log(_id);
         eventObj.deleteEvent(_id);
         handleClick();
     };

@@ -10,6 +10,7 @@ import { Outlet } from 'react-router-dom';
 function App() {
     const [events, setEvents] = useState([{}]);
 
+    // Get All Events
     const getEvents = () => {
         axios
             .get('http://localhost:3000/event')
@@ -25,12 +26,11 @@ function App() {
             });
     };
 
+    // Add New Event
     const addEvent = (event) => {
         axios
             .post('http://localhost:3000/event', event)
-            .then((res) => {
-                console.log(res);
-            })
+            .then()
             .catch((res) => {
                 console.log(res);
             })
@@ -40,11 +40,49 @@ function App() {
             });
     };
 
+    //Find Specific Event via ID
+    // const findEvent = (id) => {
+    //     axios
+    //         .get(`http://localhost:3000/event/${id}`)
+    //         .then((res) => {
+    //             setFiltEvent(res.data);
+    //         })
+    //         .catch((res) => {
+    //             console.log(res);
+    //         })
+    //         .finally(() => {
+    //             console.log('Fetching of data executed!');
+    //         });
+
+    //     return event;
+    // };
+
+    //Delete Event via ID
+    const deleteEvent = (id) => {
+        axios
+            .delete(`http://localhost:3000/event/${id}`)
+            .then((res) => {
+                return res.data;
+            })
+            .catch((res) => {
+                console.log(res);
+            })
+            .finally(() => {
+                console.log('Deletion of data executed!');
+                getEvents();
+            });
+    };
+
     useEffect(() => {
         getEvents();
     }, []);
 
-    const eventObj = { events, getEvents, addEvent };
+    const eventObj = {
+        events,
+        getEvents,
+        addEvent,
+        deleteEvent,
+    };
     // const eventObj = { getEvents, addEvent, deleteEvent, filterEvents };
 
     return (

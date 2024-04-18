@@ -60,12 +60,12 @@ const EventForm = ({ handleClick }) => {
                 : '#F4C145';
 
         const newEvent = {
+            _id: uuidv4(),
             title: titleRef.current.value,
             start: dayjs(startDateRef.current.value).toISOString(),
             end: dayjs(endDateRef.current.value).toISOString(),
             backgroundColor: color,
             extendedProps: {
-                _id: uuidv4(),
                 division: divRef.current.value,
                 csu: csuRef.current.value,
                 csuHead: csuHeadRef.current.value,

@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
 const eventSchema = new mongoose.Schema({
+    _id: String,
     title: String,
     start: String,
     end: String,
     backgroundColor: String,
     extendedProps: {
-        _id: String,
         division: String,
         csu: String,
         csuHead: String,

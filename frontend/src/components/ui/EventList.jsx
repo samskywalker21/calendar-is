@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useContext, useState } from 'react';
 import dayjs from 'dayjs';
 
@@ -22,41 +22,61 @@ import {
     Stack,
 } from '@mui/material';
 
+//Axios
+import axios from 'axios';
+
 function EventList() {
     const eventObj = useContext(EventContext);
     const [deleteModalOpen, deleteHandleClick] = useState(false);
     const [editModalOpen, editHandleClick] = useState(false);
     const [selectedId, setSelectedId] = useState('');
+    const [editObject, setEditObject] = useState({});
 
     const events = eventObj.events;
 
     const openDeleteModal = (e) => {
-        e.preventDefault();
+        console.log(e.target.value);
         setSelectedId(e.target.value);
         deleteHandleClick(!deleteModalOpen);
     };
 
     const openEditModal = (e) => {
-        e.preventDefault();
-        setSelectedId(e.target.value);
+        axios
+            .get(`http://localhost:3000/event/${e.target.value}`)
+            .then((res) => {
+                setEditObject(res.data);
+            })
+            .catch(() => {
+                console.log('No Data found!');
+            });
+
         editHandleClick(!editModalOpen);
+    };
+
+    const closeModal = () => {
+        if (deleteModalOpen == true || editModalOpen == true) {
+            deleteHandleClick(false);
+            editHandleClick(false);
+        } else {
+            return;
+        }
     };
 
     return (
         <>
             <DeleteModal
                 open={deleteModalOpen}
-                handleClick={openDeleteModal}
+                handleClick={closeModal}
                 _id={selectedId}
                 title={'Delete Event?'}
                 message={'Are you sure you want to delete this event?'}
             />
-            {/* <EventFormModal
+            <EventFormModal
                 open={editModalOpen}
                 handleClick={openEditModal}
                 isEdit={true}
-                _id={selectedId}
-            /> */}
+                data={editObject}
+            />
             <TableContainer component={Paper}>
                 <Table size='medium'>
                     <TableHead>
@@ -93,7 +113,7 @@ function EventList() {
 
                             return (
                                 <TableRow
-                                    key={row.extendedProps._id}
+                                    key={row._id}
                                     sx={{
                                         '&:last-child td, &:last-child th': {
                                             border: 0,
@@ -123,7 +143,7 @@ function EventList() {
                                             <Button
                                                 variant='contained'
                                                 color='success'
-                                                value={row.extendedProps._id}
+                                                value={row._id}
                                                 onClick={openEditModal}
                                             >
                                                 Edit
@@ -131,7 +151,7 @@ function EventList() {
                                             <Button
                                                 variant='contained'
                                                 color='error'
-                                                value={row.extendedProps._id}
+                                                value={row._id}
                                                 onClick={openDeleteModal}
                                             >
                                                 Delete

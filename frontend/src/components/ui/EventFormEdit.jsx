@@ -1,11 +1,7 @@
-import React, { useRef } from 'react';
-import { useContext } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 
 // Context
 import EventContext from '../../context/EventContext';
-
-//UUID
-import { v4 as uuidv4 } from 'uuid';
 
 // Material UI
 import { Stack, TextField, MenuItem, Button } from '@mui/material';
@@ -16,12 +12,10 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs from 'dayjs';
 
-const EventFormEdit = ({ handleClick, id }) => {
-    const eventObj = useContext(EventContext);
-
-    const eventDetails = eventObj.filterEvents(id);
-
-    console.log(eventDetails);
+const EventFormEdit = ({ handleClick, data }) => {
+    useEffect(() => {
+        console.log(data);
+    }, []);
 
     //Field Refs
     const titleRef = useRef('');
@@ -40,47 +34,6 @@ const EventFormEdit = ({ handleClick, id }) => {
         csuHeadRef.current.value = null;
     };
 
-    const addEventHandler = (e) => {
-        e.preventDefault();
-
-        // Fields Test
-        // console.log(e);
-        // for (let i = 0; i < e.target.length; i++) {
-        //     if (e.target[i].name != '')
-        //         console.log(
-        //             `Index: ${i}, Name: ${e.target[i].name}, Value: ${e.target[i].value}`
-        //         );
-        // }
-
-        const color =
-            divRef.current.value == 'ORD/ARD'
-                ? '#C9190B'
-                : divRef.current.value == 'LHSD'
-                ? '#519DE9'
-                : divRef.current.value == 'RLED'
-                ? '#7CC674'
-                : divRef.current.value == 'MSD'
-                ? '#EF9234'
-                : '#F4C145';
-
-        const newEvent = {
-            title: titleRef.current.value,
-            start: dayjs(startDateRef.current.value).toDate(),
-            end: dayjs(endDateRef.current.value).toDate(),
-            backgroundColor: color,
-            extendedProps: {
-                _id: uuidv4(),
-                division: divRef.current.value,
-                csu: csuRef.current.value,
-                csuHead: csuHeadRef.current.value,
-            },
-        };
-        eventObj.addEvent(newEvent);
-
-        clearRefs();
-        handleClick();
-    };
-
     return (
         <>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -88,7 +41,7 @@ const EventFormEdit = ({ handleClick, id }) => {
                     direction={'column'}
                     spacing={2}
                     component={'form'}
-                    onSubmit={addEventHandler}
+                    // onSubmit={addEventHandler}
                 >
                     <TextField
                         id='titleId'
@@ -177,3 +130,44 @@ const EventFormEdit = ({ handleClick, id }) => {
 };
 
 export default EventFormEdit;
+
+// const addEventHandler = (e) => {
+//     e.preventDefault();
+
+//     // Fields Test
+//     // console.log(e);
+//     // for (let i = 0; i < e.target.length; i++) {
+//     //     if (e.target[i].name != '')
+//     //         console.log(
+//     //             `Index: ${i}, Name: ${e.target[i].name}, Value: ${e.target[i].value}`
+//     //         );
+//     // }
+
+//     const color =
+//         divRef.current.value == 'ORD/ARD'
+//             ? '#C9190B'
+//             : divRef.current.value == 'LHSD'
+//             ? '#519DE9'
+//             : divRef.current.value == 'RLED'
+//             ? '#7CC674'
+//             : divRef.current.value == 'MSD'
+//             ? '#EF9234'
+//             : '#F4C145';
+
+//     const newEvent = {
+//         title: titleRef.current.value,
+//         start: dayjs(startDateRef.current.value).toDate(),
+//         end: dayjs(endDateRef.current.value).toDate(),
+//         backgroundColor: color,
+//         extendedProps: {
+//             _id: uuidv4(),
+//             division: divRef.current.value,
+//             csu: csuRef.current.value,
+//             csuHead: csuHeadRef.current.value,
+//         },
+//     };
+//     eventObj.addEvent(newEvent);
+
+//     clearRefs();
+//     handleClick();
+// };
