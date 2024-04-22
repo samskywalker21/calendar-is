@@ -13,10 +13,6 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs from 'dayjs';
 
 const EventFormEdit = ({ handleClick, data }) => {
-    useEffect(() => {
-        console.log(data);
-    }, []);
-
     //Field Refs
     const titleRef = useRef('');
     const startDateRef = useRef('');

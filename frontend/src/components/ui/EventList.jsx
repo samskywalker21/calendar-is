@@ -30,27 +30,17 @@ function EventList() {
     const [deleteModalOpen, deleteHandleClick] = useState(false);
     const [editModalOpen, editHandleClick] = useState(false);
     const [selectedId, setSelectedId] = useState('');
-    const [editObject, setEditObject] = useState({});
+    const [editObject, setEditObject] = useState('');
 
     const events = eventObj.events;
 
     const openDeleteModal = (e) => {
-        console.log(e.target.value);
         setSelectedId(e.target.value);
         deleteHandleClick(!deleteModalOpen);
     };
 
     const openEditModal = (e) => {
-        axios
-            .get(`http://localhost:3000/event/${e.target.value}`)
-            .then((res) => {
-                setEditObject(res.data);
-            })
-            .catch(() => {
-                console.log('No Data found!');
-            });
-
-        editHandleClick(!editModalOpen);
+        setEditObject(JSON.parse(e.target.value));
     };
 
     const closeModal = () => {
@@ -61,6 +51,11 @@ function EventList() {
             return;
         }
     };
+
+    useEffect(() => {
+        console.log(editObject);
+        // editHandleClick(!editModalOpen);
+    }, [editObject]);
 
     return (
         <>
@@ -73,7 +68,7 @@ function EventList() {
             />
             <EventFormModal
                 open={editModalOpen}
-                handleClick={openEditModal}
+                handleClick={closeModal}
                 isEdit={true}
                 data={editObject}
             />
@@ -103,6 +98,7 @@ function EventList() {
                                     </TableRow>
                                 );
                             }
+
                             const startString = dayjs(row.start).format(
                                 'MM/DD/YYYY HH:mm'
                             );
@@ -143,7 +139,7 @@ function EventList() {
                                             <Button
                                                 variant='contained'
                                                 color='success'
-                                                value={row._id}
+                                                value={JSON.stringify(row)}
                                                 onClick={openEditModal}
                                             >
                                                 Edit
