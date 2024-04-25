@@ -85,11 +85,35 @@ const EventFormEdit = ({ handleClick, data }) => {
                         select
                         required
                     >
-                        <MenuItem value='Test 1'>Test 1</MenuItem>
-                        <MenuItem value='Test 2'>Test 2</MenuItem>
-                        <MenuItem value='Test 3'>Test 3</MenuItem>
-                        <MenuItem value='Test 4'>Test 4</MenuItem>
-                        <MenuItem value='Test 5'>Test 5</MenuItem>
+                        <MenuItem value='RESDRU'>ORD - RESDRU</MenuItem>
+                        <MenuItem value='Legal/PACD'>ORD - Legal/PACD</MenuItem>
+                        <MenuItem value='CHEPU'>ORD - CHEPU</MenuItem>
+                        <MenuItem value='HFDU'>ORD - HFDU</MenuItem>
+                        <MenuItem value='Infra'>ORD - Infra</MenuItem>
+                        <MenuItem value='CMU'>ORD - CMU</MenuItem>
+                        <MenuItem value='Research'>ORD - Research</MenuItem>
+                        <MenuItem value='LHSDC'>LHSD - LHSDC</MenuItem>
+                        <MenuItem value='DMU'>LHSD - DMU</MenuItem>
+                        <MenuItem value='NCDC'>LHSD - NCDC</MenuItem>
+                        <MenuItem value='FHC'>LHSD - FHC</MenuItem>
+                        <MenuItem value='IDC'>LHSD - IDC</MenuItem>
+                        <MenuItem value='EOH'>LHSD - EOH</MenuItem>
+                        <MenuItem value='RLED'>RLED</MenuItem>
+                        <MenuItem value='Personnel'>MSD - Personnel</MenuItem>
+                        <MenuItem value='HRDU'>MSD - HRDU</MenuItem>
+                        <MenuItem value='Accounting'>MSD - Accounting</MenuItem>
+                        <MenuItem value='Budget'>MSD - Budget</MenuItem>
+                        <MenuItem value='Cashier'>MSD - Cashier</MenuItem>
+                        <MenuItem value='Planning'>MSD - Planning</MenuItem>
+                        <MenuItem value='Procurement'>
+                            MSD - Procurement
+                        </MenuItem>
+                        <MenuItem value='Supply'>MSD - Supply</MenuItem>
+                        <MenuItem value='Transport/GSS'>
+                            MSD - Transport/GSS
+                        </MenuItem>
+                        <MenuItem value='ICTU'>MSD - ICTU</MenuItem>
+                        <MenuItem value='Records'>MSD - Records</MenuItem>
                     </TextField>
                     <TextField
                         id='csuHeadId'

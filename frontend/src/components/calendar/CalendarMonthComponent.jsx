@@ -1,11 +1,13 @@
 import React from 'react';
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
+import ViewModal from '../ui/ViewModal';
+
 import EventContext from '../../context/EventContext';
 
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 
-function CalendarMonthComponent() {
+function CalendarMonthComponent({ changeModal, changeViewEvent }) {
     const eventObj = useContext(EventContext);
 
     return (
@@ -18,6 +20,9 @@ function CalendarMonthComponent() {
                 displayEventEnd={false}
                 displayEventTime={false}
                 events={eventObj.events}
+                eventClick={(info) => {
+                    changeViewEvent(info.event);
+                }}
                 headerToolbar={{
                     left: 'prev,next,today',
                     center: 'title',

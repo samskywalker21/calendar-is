@@ -84,6 +84,7 @@ function EventList() {
                                 Cluster/Section/Unit
                             </TableCell>
                             <TableCell align='left'>Program Manager</TableCell>
+                            <TableCell align='left'>Participants</TableCell>
                             <TableCell align='left'>Action</TableCell>
                         </TableRow>
                     </TableHead>
@@ -100,11 +101,11 @@ function EventList() {
                             }
 
                             const startString = dayjs(row.start).format(
-                                'MM/DD/YYYY HH:mm'
+                                'MM/DD/YYYY HH:mm A'
                             );
 
                             const endString = dayjs(row.end).format(
-                                'MM/DD/YYYY HH:mm'
+                                'MM/DD/YYYY HH:mm A'
                             );
 
                             return (
@@ -133,6 +134,9 @@ function EventList() {
                                     </TableCell>
                                     <TableCell component='th' scope='row'>
                                         {row.extendedProps.csuHead}
+                                    </TableCell>
+                                    <TableCell component='th' scope='row'>
+                                        {row.extendedProps.participants}
                                     </TableCell>
                                     <TableCell component='th' scope='row'>
                                         <Stack direction='row' spacing={2}>
