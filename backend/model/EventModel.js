@@ -10,6 +10,7 @@ const eventSchema = new mongoose.Schema({
         division: String,
         csu: String,
         csuHead: String,
+        participants: String,
     },
 });
 
