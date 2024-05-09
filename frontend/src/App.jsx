@@ -10,14 +10,12 @@ import { Outlet } from 'react-router-dom';
 function App() {
     const [events, setEvents] = useState([{}]);
 
-    useEffect(() => {
-        console.log(import.meta.env.VITE_BACKEND_ADD);
-    }, []);
+    const dburl = `http://${import.meta.env.VITE_BACKEND_ADD}:3000`;
 
     // Get All Events
     const getEvents = () => {
         axios
-            .get('http://localhost:3000/event')
+            .get(`${dburl}/event`)
             .then((res) => {
                 // console.log(res.data);
                 setEvents(res.data);
@@ -33,7 +31,7 @@ function App() {
     // Add New Event
     const addEvent = (event) => {
         axios
-            .post('http://localhost:3000/event', event)
+            .post(`${dburl}/event`, event)
             .then()
             .catch((res) => {
                 console.log(res);
@@ -64,7 +62,7 @@ function App() {
     //Delete Event via ID
     const deleteEvent = (id) => {
         axios
-            .delete(`http://localhost:3000/event/${id}`)
+            .delete(`${dburl}/event/${id}`)
             .then((res) => {
                 return res.data;
             })
