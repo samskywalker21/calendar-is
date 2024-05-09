@@ -10,6 +10,10 @@ import { Outlet } from 'react-router-dom';
 function App() {
     const [events, setEvents] = useState([{}]);
 
+    useEffect(() => {
+        console.log(import.meta.env.VITE_BACKEND_ADD);
+    }, []);
+
     // Get All Events
     const getEvents = () => {
         axios
