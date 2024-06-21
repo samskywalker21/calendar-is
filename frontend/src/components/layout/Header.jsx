@@ -1,5 +1,11 @@
 import { useState } from 'react';
 
+import EventFormModal from '../ui/EventFormModal';
+import LoggedIn from './LoggedIn';
+import LogInModal from './LogInModal';
+
+import { Link } from 'react-router-dom';
+
 import {
     Stack,
     Button,
@@ -9,24 +15,12 @@ import {
     Typography,
     CssBaseline,
 } from '@mui/material';
-import EventFormModal from '../ui/EventFormModal';
-
-import { Link } from 'react-router-dom';
 
 function Header() {
-    const [open, isOpen] = useState(false);
-
-    const handleClick = () => {
-        isOpen(!open);
-    };
+    const [isLoggedin, setLogIn] = useState(false);
 
     return (
         <>
-            <EventFormModal
-                open={open}
-                handleClick={handleClick}
-                isEdit={false}
-            />
             <Box sx={{ flexGrow: 1 }}>
                 <CssBaseline>
                     <AppBar position='sticky'>
@@ -38,19 +32,17 @@ function Header() {
                             >
                                 <Link to={'/'}>Training Calendar</Link>
                             </Typography>
-                            <Button color='inherit' onClick={handleClick}>
-                                Add Event/Training
-                            </Button>
-                            <Button color='inherit' component={Link} to='/'>
-                                Event Calendar
-                            </Button>
-                            <Button
-                                color='inherit'
-                                component={Link}
-                                to='events'
-                            >
-                                Event List
-                            </Button>
+                            {isLoggedin == true ? (
+                                <LoggedIn
+                                    setLogIn={setLogIn}
+                                    check={isLoggedin}
+                                />
+                            ) : (
+                                <LogInModal
+                                    setLogIn={setLogIn}
+                                    check={isLoggedin}
+                                />
+                            )}
                         </Toolbar>
                     </AppBar>
                 </CssBaseline>
