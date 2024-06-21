@@ -10,7 +10,7 @@ import { Outlet } from 'react-router-dom';
 function App() {
     const [events, setEvents] = useState([{}]);
 
-    const dburl = `http://${import.meta.env.VITE_BACKEND_ADD}:3000`;
+    const dburl = `http://${import.meta.env.VITE_BACKEND_ADD}`;
 
     // Get All Events
     const getEvents = () => {
@@ -40,6 +40,8 @@ function App() {
                 console.log('Insertion of data executed!');
                 getEvents();
             });
+
+        getEvents();
     };
 
     //Find Specific Event via ID

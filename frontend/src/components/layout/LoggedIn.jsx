@@ -4,10 +4,12 @@ import EventFormModal from '../ui/EventFormModal';
 
 import { Button, Fade, Box } from '@mui/material';
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function LoggedIn({ setLogIn, check }) {
     const [open, isOpen] = useState(false);
+
+    const nav = useNavigate();
 
     const handleClick = () => {
         isOpen(!open);
@@ -15,6 +17,7 @@ function LoggedIn({ setLogIn, check }) {
 
     const handleLogOut = () => {
         setLogIn(false);
+        nav('/');
     };
 
     return (

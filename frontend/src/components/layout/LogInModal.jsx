@@ -79,6 +79,7 @@ function LogInModal({ setLogIn, check }) {
                                 inputRef={passRef}
                                 onChange={handleChange}
                                 defaultValue={passVal}
+                                required
                             />
                         </Stack>
                         <Stack

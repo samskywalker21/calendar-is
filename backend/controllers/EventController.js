@@ -44,13 +44,18 @@ const addEvent = (req, res, next) => {
     }
 };
 
-// module.exports = {
-//     getAllEvents,
-//     addEvent,
-//     testFunc,
-// };
+const searchEvent = async (req, res, next) => {
+    const titleString = req.params.title;
+    const filtEvents = await eventModel
+        .find({ title: { $regex: '.*' + titleString + '.*', $options: 'i' } })
+        .then((data) => {
+            return data;
+        });
+    res.json(filtEvents);
+};
 
 exports.getAllEvents = getAllEvents;
 exports.getEvent = getEvent;
 exports.addEvent = addEvent;
 exports.deleteEvent = deleteEvent;
+exports.searchEvent = searchEvent;
