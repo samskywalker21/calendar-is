@@ -4,7 +4,7 @@ import { TextField } from '@mui/material';
 
 import axios from 'axios';
 
-const EventListSearch = () => {
+const EventListSearch = ({ setEventList }) => {
     const searchRef = useRef('');
     const [searchString, setString] = useState('');
 
@@ -19,7 +19,7 @@ const EventListSearch = () => {
                 import.meta.env.VITE_BACKEND_ADD
             }/event/event/${searchString}`,
         }).then((res) => {
-            console.log(res);
+            setEventList(res.data);
         });
     }, [searchString]);
 

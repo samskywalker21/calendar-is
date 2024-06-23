@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 
 import {
     Button,
@@ -14,12 +14,14 @@ import {
     Stack,
     Fade,
 } from '@mui/material';
+import LogInContext from '../../context/LogInContext';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction='up' ref={ref} {...props} />;
 });
 
-function LogInModal({ setLogIn, check }) {
+const LogInModal = () => {
+    const loginObj = useContext(LogInContext);
     const [modalOpen, setModalOpen] = useState(false);
     const [errorInput, setErrorInput] = useState(false);
     const passRef = useRef(null);
@@ -46,7 +48,8 @@ function LogInModal({ setLogIn, check }) {
 
     const handleLogin = () => {
         if (import.meta.env.VITE_PASSWORD == passVal) {
-            setLogIn(true);
+            // setLogIn(true);
+            loginObj.flipLogin();
             setPassVal(null);
             passRef.current.value = null;
             setModalOpen(!modalOpen);
@@ -114,6 +117,6 @@ function LogInModal({ setLogIn, check }) {
             </Fade>
         </>
     );
-}
+};
 
 export default LogInModal;

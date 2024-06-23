@@ -20,6 +20,17 @@ const getEvent = async (req, res, next) => {
     res.json(filteredEvent);
 };
 
+const getSortedEvents = async (req, res, next) => {
+    // const sortedEvents = await eventModel
+    //     .find({})
+    //     .exec()
+    //     .then((data) => {
+    //         return data;
+    //     })
+    //     .catch((err) => {});
+    res.json({ message: 'test' });
+};
+
 const deleteEvent = async (req, res, next) => {
     const deletedEvent = await eventModel
         .deleteOne({ _id: req.params.id })
@@ -46,12 +57,16 @@ const addEvent = (req, res, next) => {
 
 const searchEvent = async (req, res, next) => {
     const titleString = req.params.title;
-    const filtEvents = await eventModel
-        .find({ title: { $regex: '.*' + titleString + '.*', $options: 'i' } })
-        .then((data) => {
-            return data;
-        });
-    res.json(filtEvents);
+    if (titleString != '') {
+        const filtEvents = await eventModel
+            .find({
+                title: { $regex: '.*' + titleString + '.*', $options: 'i' },
+            })
+            .then((data) => {
+                return data;
+            });
+        res.json(filtEvents);
+    }
 };
 
 exports.getAllEvents = getAllEvents;
@@ -59,3 +74,4 @@ exports.getEvent = getEvent;
 exports.addEvent = addEvent;
 exports.deleteEvent = deleteEvent;
 exports.searchEvent = searchEvent;
+exports.getSortedEvents = getSortedEvents;

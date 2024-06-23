@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
+import LogInContext from './context/LogInContext';
 import EventContext from './context/EventContext';
 import Header from './components/layout/Header';
 import Wrapper from './components/layout/Wrapper';
@@ -9,8 +10,16 @@ import { Outlet } from 'react-router-dom';
 
 function App() {
     const [events, setEvents] = useState([{}]);
+    const [isLoggedin, setLogIn] = useState(false);
 
     const dburl = `http://${import.meta.env.VITE_BACKEND_ADD}`;
+
+    //Set Login State
+    const flipLogin = () => {
+        setLogIn((prev) => {
+            return !prev;
+        });
+    };
 
     // Get All Events
     const getEvents = () => {
@@ -89,14 +98,21 @@ function App() {
     };
     // const eventObj = { getEvents, addEvent, deleteEvent, filterEvents };
 
+    const loginObj = {
+        isLoggedin,
+        flipLogin,
+    };
+
     return (
         <>
-            <EventContext.Provider value={eventObj}>
-                <Header />
-                <Wrapper>
-                    <Outlet />
-                </Wrapper>
-            </EventContext.Provider>
+            <LogInContext.Provider value={loginObj}>
+                <EventContext.Provider value={eventObj}>
+                    <Header isLoggedin={isLoggedin} setLogIn={setLogIn} />
+                    <Wrapper>
+                        <Outlet />
+                    </Wrapper>
+                </EventContext.Provider>
+            </LogInContext.Provider>
         </>
     );
 }

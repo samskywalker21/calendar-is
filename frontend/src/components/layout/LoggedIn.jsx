@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 import EventFormModal from '../ui/EventFormModal';
 
 import { Button, Fade, Box } from '@mui/material';
 
 import { Link, useNavigate } from 'react-router-dom';
+import LogInContext from '../../context/LogInContext';
 
 function LoggedIn({ setLogIn, check }) {
     const [open, isOpen] = useState(false);
+    const loginObj = useContext(LogInContext);
 
     const nav = useNavigate();
 
@@ -16,7 +18,7 @@ function LoggedIn({ setLogIn, check }) {
     };
 
     const handleLogOut = () => {
-        setLogIn(false);
+        loginObj.flipLogin();
         nav('/');
     };
 

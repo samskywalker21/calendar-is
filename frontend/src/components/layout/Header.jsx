@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 
 import EventFormModal from '../ui/EventFormModal';
 import LoggedIn from './LoggedIn';
@@ -15,9 +15,10 @@ import {
     Typography,
     CssBaseline,
 } from '@mui/material';
+import LogInContext from '../../context/LogInContext';
 
-function Header() {
-    const [isLoggedin, setLogIn] = useState(false);
+const Header = ({ isLoggedin, setLogIn }) => {
+    const loginObj = useContext(LogInContext);
 
     return (
         <>
@@ -32,7 +33,7 @@ function Header() {
                             >
                                 <Link to={'/'}>Training Calendar</Link>
                             </Typography>
-                            {isLoggedin == true ? (
+                            {loginObj.isLoggedin == true ? (
                                 <LoggedIn
                                     setLogIn={setLogIn}
                                     check={isLoggedin}
@@ -49,6 +50,6 @@ function Header() {
             </Box>
         </>
     );
-}
+};
 
 export default Header;

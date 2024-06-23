@@ -25,14 +25,14 @@ import {
 //Axios
 import axios from 'axios';
 
-function EventList() {
+const EventList = ({ eventList }) => {
     const eventObj = useContext(EventContext);
     const [deleteModalOpen, deleteHandleClick] = useState(false);
     const [editModalOpen, editHandleClick] = useState(false);
     const [selectedId, setSelectedId] = useState('');
     const [editObject, setEditObject] = useState('');
 
-    const events = eventObj.events;
+    const events = eventList;
 
     const openDeleteModal = (e) => {
         setSelectedId(e.target.value);
@@ -140,14 +140,14 @@ function EventList() {
                                     </TableCell>
                                     <TableCell component='th' scope='row'>
                                         <Stack direction='row' spacing={2}>
-                                            <Button
+                                            {/* <Button
                                                 variant='contained'
                                                 color='success'
                                                 value={JSON.stringify(row)}
                                                 onClick={openEditModal}
                                             >
                                                 Edit
-                                            </Button>
+                                            </Button> */}
                                             <Button
                                                 variant='contained'
                                                 color='error'
@@ -166,6 +166,6 @@ function EventList() {
             </TableContainer>
         </>
     );
-}
+};
 
 export default EventList;
