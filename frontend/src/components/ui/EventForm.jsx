@@ -67,6 +67,7 @@ const EventForm = ({ handleClick }) => {
             start: dayjs(startDateRef.current.value).toISOString(),
             end: dayjs(endDateRef.current.value).toISOString(),
             backgroundColor: color,
+            status: 'P',
             extendedProps: {
                 division: divRef.current.value,
                 csu: csuRef.current.value,

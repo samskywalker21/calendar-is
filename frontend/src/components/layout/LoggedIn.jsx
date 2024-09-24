@@ -40,6 +40,9 @@ function LoggedIn({ setLogIn, check }) {
                     <Button color='inherit' component={Link} to='events'>
                         Event List
                     </Button>
+                    <Button color='inherit' component={Link} to='events'>
+                        Pending Events
+                    </Button>
                     <Button color='inherit' onClick={handleLogOut}>
                         Log Out
                     </Button>

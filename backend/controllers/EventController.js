@@ -20,6 +20,20 @@ const getEvent = async (req, res, next) => {
     res.json(filteredEvent);
 };
 
+const getPendingEvents = async (req, res, next) => {
+    // res.send('This works');
+    const pendingEvents = await eventModel
+        .find({ status: 'P' })
+        .exec()
+        .then((data) => {
+            return data;
+        })
+        .catch((err) => {
+            return { message: 'No Pending Events', err };
+        });
+    res.json(pendingEvents);
+};
+
 const getSortedEvents = async (req, res, next) => {
     // const sortedEvents = await eventModel
     //     .find({})
@@ -69,9 +83,15 @@ const searchEvent = async (req, res, next) => {
     }
 };
 
+const updateStatus = async (req, res, next) => {
+    const id = req.params.id;
+    const updatedEvent = eventModel.findById({ _id: id }, { status: 'A' });
+};
+
 exports.getAllEvents = getAllEvents;
 exports.getEvent = getEvent;
 exports.addEvent = addEvent;
 exports.deleteEvent = deleteEvent;
 exports.searchEvent = searchEvent;
 exports.getSortedEvents = getSortedEvents;
+exports.getPendingEvents = getPendingEvents;
