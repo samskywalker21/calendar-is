@@ -1,4 +1,3 @@
-import React from 'react';
 import { useContext, useState, useEffect } from 'react';
 import ViewModal from '../ui/ViewModal';
 
@@ -8,7 +7,12 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 
 function CalendarMonthComponent({ changeModal, changeViewEvent }) {
-    const eventObj = useContext(EventContext);
+    const [events, setEvents] = useState();
+    const eventFunctions = useContext(EventContext);
+
+    useEffect(() => {
+        eventFunctions.getActiveEvents(setEvents);
+    }, []);
 
     return (
         <>
@@ -19,7 +23,7 @@ function CalendarMonthComponent({ changeModal, changeViewEvent }) {
                 initialView='dayGridMonth'
                 displayEventEnd={false}
                 displayEventTime={false}
-                events={eventObj.events}
+                events={events}
                 eventClick={(info) => {
                     changeViewEvent(info.event);
                 }}

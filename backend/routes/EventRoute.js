@@ -8,14 +8,16 @@ router.get('/event/:title', EventController.searchEvent);
 
 router.get('/pending', EventController.getPendingEvents);
 
-router.get('/:id', EventController.getEvent);
+router.get('/active', EventController.getActiveEvents);
 
 router.get('/sorted', EventController.getSortedEvents);
+
+router.get('/:id', EventController.getEvent);
 
 router.delete('/:id', EventController.deleteEvent);
 
 router.post('/', EventController.addEvent);
 
-router.patch('/:id');
+router.put('/status/:id', EventController.updateStatus);
 
 module.exports = router;

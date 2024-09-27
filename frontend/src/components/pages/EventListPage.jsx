@@ -1,42 +1,40 @@
-import React, { useEffect, useState, useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import EventList from '../ui/EventList';
 import EventListSearch from '../ui/EventListSearch';
 
+import EventContext from '../../context/EventContext';
+
 import { Stack } from '@mui/material';
 
-import axios from 'axios';
-
-import { useNavigate } from 'react-router-dom';
-import LogInContext from '../../context/LogInContext';
-
 function EventListPage() {
-    const [eventList, setEventList] = useState([]);
-    const nav = useNavigate();
+	const [allEvents, setAllEvents] = useState([]);
 
-    const loginObj = useContext(LogInContext);
+	const eventFunction = useContext(EventContext);
 
-    useEffect(() => {
-        if (loginObj.isLoggedin == true) {
-            axios({
-                method: 'GET',
-                url: `http://${import.meta.env.VITE_BACKEND_ADD}/event/sorted`,
-            }).then((res) => {
-                console.log(res);
-            });
-        } else {
-            nav('/');
-        }
-    }, []);
+	useEffect(() => {
+		console.log(
+			'********************  This is triggered ********************',
+		);
+	}, [allEvents]);
 
-    return (
-        <>
-            <Stack spacing={2}>
-                <EventListSearch setEventList={setEventList} />
-                <EventList eventList={eventList} />
-            </Stack>
-        </>
-    );
+	const refreshList = async (fn = () => {}) => {
+		await eventFunction.getEventsLimit(setAllEvents);
+		if (fn) await fn();
+	};
+
+	useEffect(() => {
+		refreshList();
+	}, []);
+
+	return (
+		<>
+			<Stack spacing={2}>
+				<EventListSearch setEventList={setAllEvents} />
+				<EventList allEvents={allEvents} refreshList={refreshList} />
+			</Stack>
+		</>
+	);
 }
 
 export default EventListPage;

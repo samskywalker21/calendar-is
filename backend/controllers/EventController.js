@@ -5,6 +5,11 @@ const getAllEvents = async (req, res, next) => {
     res.json(allEvents);
 };
 
+const getActiveEvents = async (req, res, next) => {
+    const activeEvents = await eventModel.find({ status: 'A' });
+    res.json(activeEvents);
+};
+
 const getEvent = async (req, res, next) => {
     // res.send(req.params.id);
     const filteredEvent = await eventModel
@@ -35,14 +40,19 @@ const getPendingEvents = async (req, res, next) => {
 };
 
 const getSortedEvents = async (req, res, next) => {
-    // const sortedEvents = await eventModel
-    //     .find({})
-    //     .exec()
-    //     .then((data) => {
-    //         return data;
-    //     })
-    //     .catch((err) => {});
-    res.json({ message: 'test' });
+    const filteredEvent = await eventModel
+        .find({})
+        .sort({ start: 1 })
+        .limit(10)
+        .exec()
+        .then((data) => {
+            return data;
+        })
+        .catch((err) => {
+            return { message: 'Data not found!', err };
+        });
+
+    res.json(filteredEvent);
 };
 
 const deleteEvent = async (req, res, next) => {
@@ -85,7 +95,51 @@ const searchEvent = async (req, res, next) => {
 
 const updateStatus = async (req, res, next) => {
     const id = req.params.id;
-    const updatedEvent = eventModel.findById({ _id: id }, { status: 'A' });
+    const action = req.body.action;
+
+    if (action === 'Approve') {
+        const updatedEvent = await eventModel
+            .findOneAndUpdate({ _id: id }, { status: 'A' })
+            .then(() => {
+                res.json({ message: 'Event updated' });
+            })
+            .catch(() => {
+                res.json({ message: 'Event not found' });
+            });
+    }
+
+    if (action === 'Disapprove') {
+        const updatedEvent = await eventModel
+            .findOneAndUpdate({ _id: id }, { status: 'D' })
+            .then(() => {
+                res.json({ message: 'Event updated' });
+            })
+            .catch(() => {
+                res.json({ message: 'Event not found' });
+            });
+    }
+
+    if (action === 'Delete') {
+        const updatedEvent = await eventModel
+            .findOneAndUpdate({ _id: id }, { status: 'I' })
+            .then(() => {
+                res.json({ message: 'Event updated' });
+            })
+            .catch(() => {
+                res.json({ message: 'Event not found' });
+            });
+    }
+
+    if (action === 'Return') {
+        const updatedEvent = await eventModel
+            .findOneAndUpdate({ _id: id }, { status: 'P' })
+            .then(() => {
+                res.json({ message: 'Event updated' });
+            })
+            .catch(() => {
+                res.json({ message: 'Event not found' });
+            });
+    }
 };
 
 exports.getAllEvents = getAllEvents;
@@ -95,3 +149,5 @@ exports.deleteEvent = deleteEvent;
 exports.searchEvent = searchEvent;
 exports.getSortedEvents = getSortedEvents;
 exports.getPendingEvents = getPendingEvents;
+exports.updateStatus = updateStatus;
+exports.getActiveEvents = getActiveEvents;

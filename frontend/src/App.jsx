@@ -1,113 +1,38 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 
 import LogInContext from './context/LogInContext';
-import EventContext from './context/EventContext';
+import EventContext, { eventObj } from './context/EventContext';
 import Header from './components/layout/Header';
 import Wrapper from './components/layout/Wrapper';
 
 import { Outlet } from 'react-router-dom';
 
 function App() {
-    const [events, setEvents] = useState([{}]);
     const [isLoggedin, setLogIn] = useState(false);
 
-    const dburl = `http://${import.meta.env.VITE_BACKEND_ADD}`;
-
-    //Set Login State
     const flipLogin = () => {
         setLogIn((prev) => {
             return !prev;
         });
     };
 
-    // Get All Events
-    const getEvents = () => {
-        axios
-            .get(`${dburl}/event`)
-            .then((res) => {
-                // console.log(res.data);
-                setEvents(res.data);
-            })
-            .catch((res) => {
-                console.log(res);
-            })
-            .finally(() => {
-                console.log('Fetching of data executed!');
-            });
-    };
-
-    // Add New Event
-    const addEvent = (event) => {
-        axios
-            .post(`${dburl}/event`, event)
-            .then()
-            .catch((res) => {
-                console.log(res);
-            })
-            .finally(() => {
-                console.log('Insertion of data executed!');
-                getEvents();
-            });
-
-        getEvents();
-    };
-
-    //Find Specific Event via ID
-    // const findEvent = (id) => {
-    //     axios
-    //         .get(`http://localhost:3000/event/${id}`)
-    //         .then((res) => {
-    //             setFiltEvent(res.data);
-    //         })
-    //         .catch((res) => {
-    //             console.log(res);
-    //         })
-    //         .finally(() => {
-    //             console.log('Fetching of data executed!');
-    //         });
-
-    //     return event;
-    // };
-
-    //Delete Event via ID
-    const deleteEvent = (id) => {
-        axios
-            .delete(`${dburl}/event/${id}`)
-            .then((res) => {
-                return res.data;
-            })
-            .catch((res) => {
-                console.log(res);
-            })
-            .finally(() => {
-                console.log('Deletion of data executed!');
-                getEvents();
-            });
-    };
-
     useEffect(() => {
-        getEvents();
-    }, []);
-
-    const eventObj = {
-        events,
-        getEvents,
-        addEvent,
-        deleteEvent,
-    };
-    // const eventObj = { getEvents, addEvent, deleteEvent, filterEvents };
+        const checkLogIn = sessionStorage.getItem('isLoggedIn');
+        if (checkLogIn) {
+            setLogIn(true);
+        }
+    });
 
     const loginObj = {
-        isLoggedin,
         flipLogin,
+        isLoggedin,
     };
 
     return (
         <>
             <LogInContext.Provider value={loginObj}>
                 <EventContext.Provider value={eventObj}>
-                    <Header isLoggedin={isLoggedin} setLogIn={setLogIn} />
+                    <Header />
                     <Wrapper>
                         <Outlet />
                     </Wrapper>

@@ -18,13 +18,13 @@ const Transition = forwardRef(function Transition(props, ref) {
     return <Slide direction='down' ref={ref} {...props} />;
 });
 
-const DeleteModal = (props) => {
-    const eventObj = useContext(EventContext);
+const ActionModal = (props) => {
+    const eventFunctions = useContext(EventContext);
 
-    const { open, handleClick, _id, title, message } = props;
+    const { open, handleClick, _id, title, message, action } = props;
 
-    const handleClickDelete = () => {
-        eventObj.deleteEvent(_id);
+    const actionHandler = () => {
+        eventFunctions.updateEvent(_id, action);
         handleClick();
     };
 
@@ -41,7 +41,7 @@ const DeleteModal = (props) => {
                     <DialogContentText>{message}</DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClickDelete}>Delete</Button>
+                    <Button onClick={actionHandler}>{action}</Button>
                     <Button onClick={handleClick}>Cancel</Button>
                 </DialogActions>
             </Dialog>
@@ -49,4 +49,4 @@ const DeleteModal = (props) => {
     );
 };
 
-export default DeleteModal;
+export default ActionModal;

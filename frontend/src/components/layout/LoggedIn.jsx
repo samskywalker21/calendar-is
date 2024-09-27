@@ -2,12 +2,13 @@ import React, { useState, useContext } from 'react';
 
 import EventFormModal from '../ui/EventFormModal';
 
-import { Button, Fade, Box } from '@mui/material';
+import { Button, Box } from '@mui/material';
 
 import { Link, useNavigate } from 'react-router-dom';
 import LogInContext from '../../context/LogInContext';
+import LogInModal from './LogInModal';
 
-function LoggedIn({ setLogIn, check }) {
+function LoggedIn() {
     const [open, isOpen] = useState(false);
     const loginObj = useContext(LogInContext);
 
@@ -19,6 +20,7 @@ function LoggedIn({ setLogIn, check }) {
 
     const handleLogOut = () => {
         loginObj.flipLogin();
+        sessionStorage.removeItem('isLoggedIn');
         nav('/');
     };
 
@@ -29,25 +31,24 @@ function LoggedIn({ setLogIn, check }) {
                 handleClick={handleClick}
                 isEdit={false}
             />
-            <Fade in={check} timeout={{ enter: 1000, exit: 1000 }}>
-                <Box>
-                    <Button color='inherit' onClick={handleClick}>
-                        Add Event/Training
-                    </Button>
-                    <Button color='inherit' component={Link} to='/'>
-                        Event Calendar
-                    </Button>
-                    <Button color='inherit' component={Link} to='events'>
-                        Event List
-                    </Button>
-                    <Button color='inherit' component={Link} to='events'>
-                        Pending Events
-                    </Button>
+            <Box>
+                {loginObj.isLoggedin == true ? (
                     <Button color='inherit' onClick={handleLogOut}>
                         Log Out
                     </Button>
-                </Box>
-            </Fade>
+                ) : (
+                    <LogInModal />
+                )}
+                <Button color='inherit' onClick={handleClick}>
+                    Add Event/Training
+                </Button>
+                <Button color='inherit' component={Link} to='/'>
+                    Event Calendar
+                </Button>
+                <Button color='inherit' component={Link} to='events'>
+                    Event List
+                </Button>
+            </Box>
         </>
     );
 }

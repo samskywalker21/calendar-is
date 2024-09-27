@@ -49,6 +49,7 @@ const LogInModal = () => {
     const handleLogin = () => {
         if (import.meta.env.VITE_PASSWORD == passVal) {
             // setLogIn(true);
+            sessionStorage.setItem('isLoggedIn', true);
             loginObj.flipLogin();
             setPassVal(null);
             passRef.current.value = null;
@@ -110,11 +111,9 @@ const LogInModal = () => {
                     </DialogContent>
                 </Dialog>
             </Paper>
-            <Fade in={true}>
-                <Button color='inherit' onClick={handleClick}>
-                    Log In
-                </Button>
-            </Fade>
+            <Button color='inherit' onClick={handleClick}>
+                Log In
+            </Button>
         </>
     );
 };

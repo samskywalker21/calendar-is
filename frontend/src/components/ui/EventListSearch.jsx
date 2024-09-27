@@ -13,14 +13,24 @@ const EventListSearch = ({ setEventList }) => {
     };
 
     useEffect(() => {
-        axios({
-            method: 'GET',
-            url: `http://${
-                import.meta.env.VITE_BACKEND_ADD
-            }/event/event/${searchString}`,
-        }).then((res) => {
-            setEventList(res.data);
-        });
+        console.log(searchString.length);
+        searchString.length == 0
+            ? axios({
+                  method: 'GET',
+                  url: `http://${
+                      import.meta.env.VITE_BACKEND_ADD
+                  }/event/sorted`,
+              }).then((res) => {
+                  setEventList(res.data);
+              })
+            : axios({
+                  method: 'GET',
+                  url: `http://${
+                      import.meta.env.VITE_BACKEND_ADD
+                  }/event/event/${searchString}`,
+              }).then((res) => {
+                  setEventList(res.data);
+              });
     }, [searchString]);
 
     return (
