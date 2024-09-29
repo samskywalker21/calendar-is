@@ -5,23 +5,22 @@ import EventListSearch from '../ui/EventListSearch';
 
 import EventContext from '../../context/EventContext';
 
-import { Stack } from '@mui/material';
+import { Button, Stack } from '@mui/material';
 
 function EventListPage() {
 	const [allEvents, setAllEvents] = useState([]);
 
 	const eventFunction = useContext(EventContext);
 
-	useEffect(() => {
-		console.log(
-			'********************  This is triggered ********************',
-		);
-	}, [allEvents]);
-
-	const refreshList = async (fn = () => {}) => {
-		await eventFunction.getEventsLimit(setAllEvents);
-		if (fn) await fn();
+	const refreshList = () => {
+		// eventFunction.getEventsLimit(setAllEvents);
+		eventFunction.getEventsLimit(setAllEvents);
+		console.log(allEvents);
 	};
+
+	useEffect(() => {
+		console.log(allEvents);
+	}, [allEvents]);
 
 	useEffect(() => {
 		refreshList();
@@ -29,9 +28,10 @@ function EventListPage() {
 
 	return (
 		<>
+			<Button onClick={refreshList}>Test</Button>
 			<Stack spacing={2}>
 				<EventListSearch setEventList={setAllEvents} />
-				<EventList allEvents={allEvents} refreshList={refreshList} />
+				<EventList allEvents={allEvents} setAllEvents={setAllEvents} />
 			</Stack>
 		</>
 	);

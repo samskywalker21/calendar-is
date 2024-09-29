@@ -26,7 +26,7 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import ReplayIcon from '@mui/icons-material/Replay';
 
-const EventList = ({ allEvents, refreshList }) => {
+const EventList = ({ allEvents, setAllEvents }) => {
 	const loginObj = useContext(LoginContext);
 
 	const [modalProps, setModalProps] = useState({
@@ -50,6 +50,7 @@ const EventList = ({ allEvents, refreshList }) => {
 					handleClick: () => {
 						closeModal();
 					},
+					setAllEvents: setAllEvents,
 				});
 				break;
 			case 'Approve':
@@ -62,6 +63,7 @@ const EventList = ({ allEvents, refreshList }) => {
 					handleClick: () => {
 						closeModal();
 					},
+					setAllEvents: setAllEvents,
 				});
 				break;
 			case 'Disapprove':
@@ -74,6 +76,7 @@ const EventList = ({ allEvents, refreshList }) => {
 					handleClick: () => {
 						closeModal();
 					},
+					setAllEvents: setAllEvents,
 				});
 				break;
 			case 'Return':
@@ -87,19 +90,16 @@ const EventList = ({ allEvents, refreshList }) => {
 					handleClick: () => {
 						closeModal();
 					},
+					setAllEvents: setAllEvents,
 				});
 				break;
 		}
 	};
 
-	const closeSetModalProps = () => {
+	const closeModal = () => {
 		setModalProps((prev) => {
 			return { ...prev, open: false };
 		});
-	};
-
-	const closeModal = () => {
-		refreshList(closeSetModalProps);
 	};
 
 	return (
@@ -308,7 +308,8 @@ const EventList = ({ allEvents, refreshList }) => {
 												) : (
 													''
 												)}
-												{row.status === 'A' ? (
+												{row.status === 'A' ||
+												row.status === 'D' ? (
 													<Button
 														variant='contained'
 														color='primary'
