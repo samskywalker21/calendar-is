@@ -23,9 +23,9 @@ const getEventsLimit = async (setDataFn) => {
 	const data = await axios
 		.get(`${dburl}/event/sorted`)
 		.then((res) => {
-			setDataFn(res.data);
-
-			return res.data;
+			if (setDataFn) {
+				setDataFn(res.data);
+			}
 		})
 		.catch((res) => {
 			console.log(res);
@@ -34,16 +34,25 @@ const getEventsLimit = async (setDataFn) => {
 	return data;
 };
 
+const getEventById = async (id) => {
+	try {
+		const { data } = await axios.get(`${dburl}/event/${id}`);
+		return data;
+	} catch (error) {
+		console.error('Error fetching event:', error);
+		throw error; // Optionally re-throw the error for further handling
+	}
+};
+
 // Add New Event
-const addEvent = (event) => {
+const addEvent = (event, fn1) => {
 	axios
 		.post(`${dburl}/event`, event)
-		.then()
+		.then((data) => {
+			getEventsLimit(fn1);
+		})
 		.catch((res) => {
 			console.log(res);
-		})
-		.finally(() => {
-			console.log('Insertion of data executed!');
 		});
 };
 
@@ -56,9 +65,6 @@ const deleteEvent = (id) => {
 		})
 		.catch((res) => {
 			console.log(res);
-		})
-		.finally(() => {
-			console.log('Deletion of data executed!');
 		});
 };
 
@@ -70,9 +76,6 @@ const getActiveEvents = (setDataFn) => {
 		})
 		.catch((res) => {
 			console.log(res);
-		})
-		.finally(() => {
-			console.log('Fetching of data executed!');
 		});
 };
 
@@ -84,19 +87,25 @@ const getPendingEvents = (setDataFn) => {
 		})
 		.catch((res) => {
 			console.log(res);
-		})
-		.finally(() => {
-			console.log('Fetching of data executed!');
 		});
 };
 
-const updateEvent = (_id, action, setAllEvents) => {
+const updateEvent = (
+	_id,
+	action,
+	setCalendarEvents,
+	setAllEvents,
+	handleClick,
+) => {
 	axios.put(`${dburl}/event/status/${_id}`, { action: action }).then(() => {
+		getActiveEvents(setCalendarEvents);
 		getEventsLimit(setAllEvents);
+		handleClick();
 	});
 };
 
 export const eventObj = {
+	getEventById,
 	getEvents,
 	addEvent,
 	deleteEvent,

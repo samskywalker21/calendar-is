@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import { useContext, useState } from 'react';
 import dayjs from 'dayjs';
 
@@ -21,13 +20,20 @@ import {
 	Stack,
 	Chip,
 } from '@mui/material';
+
+//Icons
+import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import ReplayIcon from '@mui/icons-material/Replay';
+import useEventStore from '../../stores/eventStore';
 
-const EventList = ({ allEvents, setAllEvents }) => {
+import { Link } from 'react-router-dom';
+
+const EventList = () => {
 	const loginObj = useContext(LoginContext);
+	const allEvents = useEventStore((state) => state.listEvents);
 
 	const [modalProps, setModalProps] = useState({
 		open: false,
@@ -50,7 +56,6 @@ const EventList = ({ allEvents, setAllEvents }) => {
 					handleClick: () => {
 						closeModal();
 					},
-					setAllEvents: setAllEvents,
 				});
 				break;
 			case 'Approve':
@@ -63,7 +68,6 @@ const EventList = ({ allEvents, setAllEvents }) => {
 					handleClick: () => {
 						closeModal();
 					},
-					setAllEvents: setAllEvents,
 				});
 				break;
 			case 'Disapprove':
@@ -76,7 +80,6 @@ const EventList = ({ allEvents, setAllEvents }) => {
 					handleClick: () => {
 						closeModal();
 					},
-					setAllEvents: setAllEvents,
 				});
 				break;
 			case 'Return':
@@ -90,7 +93,6 @@ const EventList = ({ allEvents, setAllEvents }) => {
 					handleClick: () => {
 						closeModal();
 					},
-					setAllEvents: setAllEvents,
 				});
 				break;
 		}
@@ -257,7 +259,17 @@ const EventList = ({ allEvents, setAllEvents }) => {
 									</TableCell>
 									{loginObj.isLoggedin == true ? (
 										<TableCell component='th' scope='row'>
-											<Stack direction='row' spacing={2}>
+											<Stack direction='row' spacing={1}>
+												<Button
+													variant='contained'
+													color='info'
+													size='small'
+													sx={{ minWidth: 10 }}
+													component={Link}
+													to={`/edit/${row._id}`}
+												>
+													<EditIcon />
+												</Button>
 												<Button
 													variant='contained'
 													color='error'
