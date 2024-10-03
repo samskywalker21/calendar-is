@@ -1,11 +1,11 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 
 import EventList from '../ui/EventList';
 import EventListSearch from '../ui/EventListSearch';
 
 import EventContext from '../../context/EventContext';
 
-import { Button, Container, Stack } from '@mui/material';
+import { Container, Stack } from '@mui/material';
 
 function EventListPage() {
 	const eventFunction = useContext(EventContext);

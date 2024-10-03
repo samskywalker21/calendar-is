@@ -14,6 +14,8 @@ router.get('/sorted', EventController.getSortedEvents);
 
 router.get('/:id', EventController.getEvent);
 
+router.put('/:id', EventController.updateEvent);
+
 router.delete('/:id', EventController.deleteEvent);
 
 router.post('/', EventController.addEvent);

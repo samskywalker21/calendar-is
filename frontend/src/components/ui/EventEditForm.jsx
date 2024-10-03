@@ -160,6 +160,7 @@ const EventEditForm = ({ id }) => {
 									sx={{ width: 500 }}
 									size='small'
 									autoFocus
+									required
 								/>
 							)}
 						/>
@@ -206,6 +207,7 @@ const EventEditForm = ({ id }) => {
 										updateSelectedDiv(e.target.value);
 									}}
 									sx={{ width: 500 }}
+									required
 								>
 									<MenuItem value='ORD/ARD'>ORD/ARD</MenuItem>
 									<MenuItem value='LHSD'>LHSD</MenuItem>
@@ -228,6 +230,7 @@ const EventEditForm = ({ id }) => {
 									label='Cluster/Section/Unit'
 									value={field.value || 'RESDRU'}
 									sx={{ width: 500 }}
+									required
 								>
 									{selectedDiv === 'ORD/ARD'
 										? ordArray.map((item) => item)
@@ -258,6 +261,7 @@ const EventEditForm = ({ id }) => {
 									label='Program Manager/C/S/U Head'
 									sx={{ width: 500 }}
 									size='small'
+									required
 								/>
 							)}
 						/>
@@ -276,6 +280,7 @@ const EventEditForm = ({ id }) => {
 									sx={{ width: 500 }}
 									size='small'
 									multiline
+									required
 								/>
 							)}
 						/>
