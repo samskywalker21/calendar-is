@@ -153,6 +153,20 @@ const updateStatus = async (req, res, next) => {
 	}
 };
 
+const endEvents = async (req, res, next) => {
+	const date = new Date(Date.now()).toISOString();
+	const events = await eventModel
+		.find({
+			$and: [
+				{ end: { $lt: date } },
+				{ $or: [{ status: 'A' }, { status: 'P' }] },
+			],
+		})
+		.exec();
+
+	res.send(events);
+};
+
 exports.getAllEvents = getAllEvents;
 exports.getEvent = getEvent;
 exports.addEvent = addEvent;
@@ -163,3 +177,4 @@ exports.getPendingEvents = getPendingEvents;
 exports.updateStatus = updateStatus;
 exports.getActiveEvents = getActiveEvents;
 exports.updateEvent = updateEvent;
+exports.endEvents = endEvents;
