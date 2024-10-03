@@ -5,7 +5,7 @@ import EventListSearch from '../ui/EventListSearch';
 
 import EventContext from '../../context/EventContext';
 
-import { Button, Stack } from '@mui/material';
+import { Button, Container, Stack } from '@mui/material';
 
 function EventListPage() {
 	const eventFunction = useContext(EventContext);
@@ -16,10 +16,12 @@ function EventListPage() {
 
 	return (
 		<>
-			<Stack spacing={2}>
-				<EventListSearch setEventList={eventFunction.setAllEvents} />
-				<EventList />
-			</Stack>
+			<Container>
+				<Stack spacing={2}>
+					<EventListSearch />
+					<EventList />
+				</Stack>
+			</Container>
 		</>
 	);
 }

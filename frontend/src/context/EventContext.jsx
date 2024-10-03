@@ -90,7 +90,7 @@ const getPendingEvents = (setDataFn) => {
 		});
 };
 
-const updateEvent = (
+const updateEventStatus = (
 	_id,
 	action,
 	setCalendarEvents,
@@ -104,6 +104,10 @@ const updateEvent = (
 	});
 };
 
+const updateEventDetails = async (id, body) => {
+	await axios.put(`${dburl}/event/${id}`, { data: body });
+};
+
 export const eventObj = {
 	getEventById,
 	getEvents,
@@ -112,5 +116,6 @@ export const eventObj = {
 	getActiveEvents,
 	getPendingEvents,
 	getEventsLimit,
-	updateEvent,
+	updateEventStatus,
+	updateEventDetails,
 };

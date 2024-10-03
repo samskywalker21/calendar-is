@@ -32,7 +32,7 @@ const ActionModal = (props) => {
 	const { open, handleClick, _id, title, message, action } = props;
 
 	const actionHandler = () => {
-		eventFunctions.updateEvent(
+		eventFunctions.updateEventStatus(
 			_id,
 			action,
 			setCalendarEvents,

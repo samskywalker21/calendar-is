@@ -1,25 +1,19 @@
-import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-
-import EventContext from '../../context/EventContext';
+import Typography from '@mui/material/Typography';
+import { Container } from '@mui/material';
+import EventEditForm from '../ui/EventEditForm';
 
 const EditEventPage = () => {
-	const [data, setData] = useState([]);
 	const { id } = useParams();
-	const eventFunction = useContext(EventContext);
 
-	useEffect(() => {
-		eventFunction
-			.getEventById(id)
-			.then((data) => {
-				setData(data[0]);
-			})
-			.catch(() => {
-				throw new Error('It does not work');
-			});
-	}, []);
-
-	return <div>{console.log(data)}</div>;
+	return (
+		<>
+			<Container>
+				<Typography variant='h4'>Edit Event</Typography>
+				<EventEditForm id={id} />
+			</Container>
+		</>
+	);
 };
 
 export default EditEventPage;

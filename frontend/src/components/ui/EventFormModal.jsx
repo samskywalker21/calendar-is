@@ -10,7 +10,6 @@ import {
 } from '@mui/material';
 
 import EventForm from './EventForm';
-import EventFormEdit from './EventFormEdit';
 
 const Transition = forwardRef(function Transition(props, ref) {
 	return <Slide direction='down' ref={ref} {...props} />;
