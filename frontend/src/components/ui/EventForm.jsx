@@ -113,13 +113,13 @@ const EventForm = ({ handleClick }) => {
 	const csuRef = useRef('');
 	const csuHeadRef = useRef('');
 	const partiRef = useRef('');
+	const typeRef = useRef('');
 
 	const clearRefs = () => {
 		titleRef.current.value = null;
 		startDateRef.current.value = null;
 		endDateRef.current.value = null;
 		divRef.current.value = null;
-		csuRef.current.value = null;
 		csuHeadRef.current.value = null;
 		partiRef.current.value = null;
 		updateSelectedDiv('ORD/ARD');
@@ -137,24 +137,14 @@ const EventForm = ({ handleClick }) => {
 		//         );
 		// }
 
-		const color =
-			divRef.current.value == 'ORD/ARD'
-				? '#C9190B'
-				: divRef.current.value == 'LHSD'
-					? '#519DE9'
-					: divRef.current.value == 'RLED'
-						? '#7CC674'
-						: divRef.current.value == 'MSD'
-							? '#EF9234'
-							: '#F4C145';
-
 		const newEvent = {
 			_id: uuidv4(),
 			title: titleRef.current.value,
 			start: dayjs(startDateRef.current.value).toISOString(),
 			end: dayjs(endDateRef.current.value).toISOString(),
-			backgroundColor: color,
+			backgroundColor: '#F57C00',
 			status: 'P',
+			type: typeRef.current.value,
 			extendedProps: {
 				division: divRef.current.value,
 				csu: csuRef.current.value,
@@ -185,6 +175,18 @@ const EventForm = ({ handleClick }) => {
 						defaultValue=''
 						inputRef={titleRef}
 					/>
+					<TextField
+						id='typeId'
+						name='type'
+						label='Type'
+						defaultValue='E'
+						inputRef={typeRef}
+						select
+						required
+					>
+						<MenuItem value='E'>Event</MenuItem>
+						<MenuItem value='M'>Monitoring</MenuItem>
+					</TextField>
 					<DateTimePicker
 						label='Start Date'
 						name='startDate'
@@ -251,7 +253,7 @@ const EventForm = ({ handleClick }) => {
 					<TextField
 						id='participants'
 						name='participants'
-						label='Participants'
+						label='Participants/Facilities'
 						defaultValue=''
 						inputRef={partiRef}
 						multiline

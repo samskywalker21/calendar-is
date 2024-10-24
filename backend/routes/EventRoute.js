@@ -14,6 +14,10 @@ router.get('/active', EventController.getActiveEvents);
 
 router.get('/sorted', EventController.getSortedEvents);
 
+router.get('/update/eventtype', EventController.addEventsType);
+
+router.get('/update/eventcolors', EventController.updateEventColors);
+
 router.get('/:id', EventController.getEvent);
 
 router.put('/:id', EventController.updateEvent);

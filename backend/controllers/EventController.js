@@ -110,7 +110,10 @@ const updateStatus = async (req, res, next) => {
 
 	if (action === 'Approve') {
 		const updatedEvent = await eventModel
-			.findOneAndUpdate({ _id: id }, { status: 'A' })
+			.findOneAndUpdate(
+				{ _id: id },
+				{ status: 'A', backgroundColor: '#27632A' },
+			)
 			.then(() => {
 				res.json({ message: 'Event updated' });
 			})
@@ -143,7 +146,10 @@ const updateStatus = async (req, res, next) => {
 
 	if (action === 'Return') {
 		const updatedEvent = await eventModel
-			.findOneAndUpdate({ _id: id }, { status: 'P' })
+			.findOneAndUpdate(
+				{ _id: id },
+				{ status: 'P', backgroundColor: '#F57C00' },
+			)
 			.then(() => {
 				res.json({ message: 'Event updated' });
 			})
@@ -167,6 +173,56 @@ const endEvents = async (req, res, next) => {
 	res.send(events);
 };
 
+const addEventsType = async (req, res, next) => {
+	try {
+		// Await the result of the updateMany operation
+		const result = await eventModel.updateMany({}, { $set: { type: 'E' } });
+
+		// Respond with success message and optionally include the number of updated documents
+		res.json({
+			message: `Events have been updated. ${result.nModified} document(s) were modified.`,
+		});
+	} catch (e) {
+		// Send error response in case of failure
+		res.status(500).json({
+			error: 'An error occurred while updating events.',
+			details: e,
+		});
+	}
+};
+
+const updateEventColors = async (req, res, next) => {
+	try {
+		// Perform both updates concurrently using Promise.all for better performance
+		const [green, orange] = await Promise.all([
+			eventModel.updateMany(
+				{ status: 'A' },
+				{ $set: { backgroundColor: '#27632A' } },
+			),
+			eventModel.updateMany(
+				{ status: 'P' },
+				{ $set: { backgroundColor: '#F57C00' } },
+			),
+		]);
+
+		// Send response with information about the modified documents
+		res.json({
+			message: 'Event colors updated successfully',
+			greenModified: green.nModified || green.modifiedCount, // Mongoose versions might return different property names
+			orangeModified: orange.nModified || orange.modifiedCount,
+		});
+	} catch (e) {
+		// Log the error for debugging
+		console.error('Error updating event colors:', e);
+
+		// Send error response
+		res.status(500).json({
+			error: 'An error occurred while updating events.',
+			details: e.message || e,
+		});
+	}
+};
+
 exports.getAllEvents = getAllEvents;
 exports.getEvent = getEvent;
 exports.addEvent = addEvent;
@@ -178,3 +234,5 @@ exports.updateStatus = updateStatus;
 exports.getActiveEvents = getActiveEvents;
 exports.updateEvent = updateEvent;
 exports.endEvents = endEvents;
+exports.addEventsType = addEventsType;
+exports.updateEventColors = updateEventColors;

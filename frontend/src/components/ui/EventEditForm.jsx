@@ -110,9 +110,11 @@ const EventEditForm = ({ id }) => {
 			.getEventById(id)
 			.then((data) => {
 				const event = data[0];
+				console.log(event);
 				setValue('title', event.title);
 				setValue('start', dayjs(event.start));
 				setValue('end', dayjs(event.end));
+				setValue('type', event.type);
 				setValue('division', event.extendedProps['division']);
 				setValue('csu', event.extendedProps['csu']);
 				setValue('csuHead', event.extendedProps['csuHead']);
@@ -129,6 +131,7 @@ const EventEditForm = ({ id }) => {
 			title: formData.title,
 			start: dayjs(formData.start).toISOString(),
 			end: dayjs(formData.end).toISOString(),
+			type: formData.type,
 			extendedProps: {
 				division: formData.division,
 				csu: formData.csu,
@@ -162,6 +165,27 @@ const EventEditForm = ({ id }) => {
 									autoFocus
 									required
 								/>
+							)}
+						/>
+					</FormControl>
+
+					<FormControl>
+						<InputLabel id='type'>Type</InputLabel>
+						<Controller
+							name='type'
+							control={control}
+							render={({ field }) => (
+								<Select
+									{...field}
+									value={field.value || 'E'}
+									labelId='type'
+									label='Type'
+									sx={{ width: 500 }}
+									required
+								>
+									<MenuItem value='E'>Event</MenuItem>
+									<MenuItem value='M'>Monitoring</MenuItem>
+								</Select>
 							)}
 						/>
 					</FormControl>

@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 
 //Context
@@ -157,7 +157,7 @@ const EventList = () => {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{allEvents.length === 0 ? (
+						{allEvents.length == 0 ? (
 							<TableRow key='noKey'>
 								<TableCell
 									colSpan={6}
