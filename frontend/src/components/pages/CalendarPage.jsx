@@ -1,4 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+
+import EventContext from '../../context/EventContext';
+import useEventStore from '../../stores/eventStore';
 
 import CalendarMonthComponent from '../calendar/CalendarMonthComponent';
 import ViewModal from '../ui/ViewModal';
@@ -10,13 +13,21 @@ import {
 	FormControlLabel,
 } from '@mui/material';
 
-function CalendarPage() {
+const CalendarPage = () => {
+	const eventFunctions = useContext(EventContext);
+	const filterApEv = useEventStore((state) => state.filterApEv);
+	const filterApMn = useEventStore((state) => state.filterApMn);
+	const filterPeEv = useEventStore((state) => state.filterPeEv);
+	const filterPeMn = useEventStore((state) => state.filterPeMn);
+	const updateFilter = useEventStore((state) => state.updateFilter);
+	const updateCalendarEvents = useEventStore(
+		(state) => state.updateCalendarEvents,
+	);
+
 	const [isOpen, handleClick] = useState(false);
 	const [viewEvent, setViewEvent] = useState({});
-	const [aEvent, setAEvent] = useState(false);
-	const [pEvent, setPEvent] = useState(false);
-	const [aMont, setAMont] = useState(false);
-	const [pMont, setPMont] = useState(false);
+
+	const filters = [filterApEv, filterApMn, filterPeEv, filterPeMn];
 
 	const changeModal = () => {
 		handleClick((prevState) => {
@@ -35,7 +46,7 @@ function CalendarPage() {
 			csuHead: obj.extendedProps.csuHead,
 			participants: obj.extendedProps.participants,
 			status: obj.status,
-			type: obj.type,
+			type: obj.extendedProps.type,
 		};
 		setViewEvent(event);
 	};
@@ -47,6 +58,21 @@ function CalendarPage() {
 			changeModal();
 		}
 	}, [viewEvent]);
+
+	useEffect(() => {
+		eventFunctions.getEventsWithFilter(
+			updateCalendarEvents,
+			filterApEv,
+			filterApMn,
+			filterPeEv,
+			filterPeMn,
+		);
+	}, [filterApEv, filterApMn, filterPeEv, filterPeMn]);
+
+	const handleChangeFilter = (index) => {
+		filters[index] = !filters[index];
+		updateFilter(...filters);
+	};
 
 	return (
 		<>
@@ -61,9 +87,9 @@ function CalendarPage() {
 						<FormControlLabel
 							control={
 								<Switch
-									checked={aEvent}
+									checked={filters[0]}
 									onChange={() => {
-										setAEvent((prevState) => !prevState);
+										handleChangeFilter(0);
 									}}
 								/>
 							}
@@ -72,9 +98,9 @@ function CalendarPage() {
 						<FormControlLabel
 							control={
 								<Switch
-									checked={aMont}
+									checked={filters[1]}
 									onChange={() => {
-										setAMont((prevState) => !prevState);
+										handleChangeFilter(1);
 									}}
 								/>
 							}
@@ -83,9 +109,9 @@ function CalendarPage() {
 						<FormControlLabel
 							control={
 								<Switch
-									checked={pEvent}
+									checked={filters[2]}
 									onChange={() => {
-										setPEvent((prevState) => !prevState);
+										handleChangeFilter(2);
 									}}
 								/>
 							}
@@ -94,9 +120,9 @@ function CalendarPage() {
 						<FormControlLabel
 							control={
 								<Switch
-									checked={pMont}
+									checked={filters[3]}
 									onChange={() => {
-										setPMont((prevState) => !prevState);
+										handleChangeFilter(3);
 									}}
 								/>
 							}
@@ -111,6 +137,6 @@ function CalendarPage() {
 			</Container>
 		</>
 	);
-}
+};
 
 export default CalendarPage;

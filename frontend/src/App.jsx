@@ -15,6 +15,10 @@ function App() {
 	const [isLoggedin, setLogIn] = useState(false);
 	const setEvents = useEventStore((state) => state.updateCalendarEvents);
 	const setListEvents = useEventStore((state) => state.updateListEvents);
+	const filterApEv = useEventStore((state) => state.filterApEv);
+	const filterApMn = useEventStore((state) => state.filterApMn);
+	const filterPeEv = useEventStore((state) => state.filterPeEv);
+	const filterPeMn = useEventStore((state) => state.filterPeMn);
 
 	const isOpen = useNotifStore((state) => state.isOpen);
 
@@ -34,7 +38,13 @@ function App() {
 		if (checkLogIn) {
 			setLogIn(true);
 		}
-		eventObj.getActiveEvents(setEvents);
+		eventObj.getEventsWithFilter(
+			setEvents,
+			filterApEv,
+			filterApMn,
+			filterPeEv,
+			filterPeMn,
+		);
 		eventObj.getEventsLimit(setListEvents);
 	}, []);
 

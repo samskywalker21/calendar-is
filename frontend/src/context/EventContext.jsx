@@ -19,6 +19,51 @@ const getEvents = (setDataFn) => {
 		});
 };
 
+const getEventsWithFilter = async (
+	setDataFn,
+	filter1,
+	filter2,
+	filter3,
+	filter4,
+) => {
+	await axios
+		.get(`${dburl}/event`)
+		.then((res) => {
+			let eventsToFilter = res.data;
+			eventsToFilter = eventsToFilter.filter(
+				(row) => row.status !== 'I' && row.status !== 'D',
+			);
+
+			//Apply the necessary filters only if the corresponding filter is false
+			if (!filter1) {
+				eventsToFilter = eventsToFilter.filter(
+					(row) => !(row.type === 'E' && row.status === 'A'),
+				);
+			}
+			if (!filter2) {
+				eventsToFilter = eventsToFilter.filter(
+					(row) => !(row.type === 'M' && row.status === 'A'),
+				);
+			}
+			if (!filter3) {
+				eventsToFilter = eventsToFilter.filter(
+					(row) => !(row.type === 'E' && row.status === 'P'),
+				);
+			}
+			if (!filter4) {
+				eventsToFilter = eventsToFilter.filter(
+					(row) => !(row.type === 'M' && row.status === 'P'),
+				);
+			}
+
+			// Update the data with the filtered results
+			setDataFn(eventsToFilter);
+		})
+		.catch((err) => {
+			console.error(err);
+		});
+};
+
 const getEventsLimit = async (setDataFn) => {
 	const data = await axios
 		.get(`${dburl}/event/sorted`)
@@ -118,4 +163,5 @@ export const eventObj = {
 	getEventsLimit,
 	updateEventStatus,
 	updateEventDetails,
+	getEventsWithFilter,
 };

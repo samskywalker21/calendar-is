@@ -1,7 +1,6 @@
 import { useContext, useState, useEffect } from 'react';
 import ViewModal from '../ui/ViewModal';
 
-import EventContext from '../../context/EventContext';
 import useEventStore from '../../stores/eventStore';
 
 import FullCalendar from '@fullcalendar/react';
