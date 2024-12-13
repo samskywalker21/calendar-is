@@ -80,11 +80,12 @@ const addEvent = (req, res, next) => {
 };
 
 const searchEvent = async (req, res, next) => {
-	const titleString = req.params.title;
+	const titleString = req.params.title || ''
 	if (titleString != '') {
+		const escapedTitle = titleString.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 		const filtEvents = await eventModel
 			.find({
-				title: { $regex: '.*' + titleString + '.*', $options: 'i' },
+				title: { $regex: '.*' + escapedTitle + '.*', $options: 'i' },
 			})
 			.then((data) => {
 				return data;
