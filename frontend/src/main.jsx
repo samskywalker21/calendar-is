@@ -11,6 +11,7 @@ import App from './App.jsx';
 import CalendarPage from './components/pages/CalendarPage.jsx';
 import EventListPage from './components/pages/EventListPage.jsx';
 import EditEventPage from './components/pages/EditEventPage.jsx';
+import ReportPage from './components/pages/ReportPage.jsx';
 
 //Font imports for Material UI
 import '@fontsource/roboto/300.css';
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
 			{ path: '/', element: <CalendarPage /> },
 			{ path: 'events', element: <EventListPage /> },
 			{ path: 'edit/:id', element: <EditEventPage /> },
+			{ path: 'reports', element: <ReportPage /> },
 		],
 	},
 ]);

@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const eventRoute = require('./routes/EventRoute');
+const userRoute = require('./routes/UserRoute');
 
 // Variable Declarations
 const app = express();
@@ -14,6 +15,7 @@ app.use(express.json()); // Body parser for JSON
 
 // Routes
 app.use('/event', eventRoute);
+app.use('/auth', userRoute);
 
 // DB Connection and Server Start
 const dbURI = 'mongodb://localhost:27017/calendarDB';

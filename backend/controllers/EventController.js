@@ -68,19 +68,48 @@ const deleteEvent = async (req, res, next) => {
 	res.json(deletedEvent);
 };
 
-const addEvent = (req, res, next) => {
+// const addEvent = (req, res, next) => {
+// 	try {
+// 		const newEvent = req.body;
+// 		const timeStamp = new Date(Date.now());
+// 		const addEvent = new eventModel({
+// 			...newEvent,
+// 			created_at: timeStamp.toISOString(),
+// 		});
+// 		addEvent.save();
+// 		res.json({ message: 'Data has been added!', data: newEvent });
+// 	} catch (err) {
+// 		res.json(err);
+// 	}
+// };
+
+const addEvent = async (req, res, next) => {
 	try {
-		const newEvent = req.body;
-		const addEvent = new eventModel(newEvent);
-		addEvent.save();
-		res.json({ message: 'Data has been added!', data: newEvent });
+		const newEvent = req.body; // Extract event data from request body
+		const timeStamp = new Date(Date.now()); // Create a Date object for the current time
+
+		// Create a new event instance
+		const event = new eventModel({
+			...newEvent,
+			created_at: timeStamp.toISOString(), // Convert timestamp to ISO format
+		});
+
+		// Save the event to the database
+		const savedEvent = await event.save();
+
+		// Respond with a success message
+		res.status(201).json({
+			message: 'Data has been added!',
+			data: savedEvent,
+		});
 	} catch (err) {
-		res.json(err);
+		// Handle and respond to errors with appropriate status and message
+		res.status(500).json({ error: err.message || 'Internal Server Error' });
 	}
 };
 
 const searchEvent = async (req, res, next) => {
-	const titleString = req.params.title || ''
+	const titleString = req.params.title || '';
 	if (titleString != '') {
 		const escapedTitle = titleString.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 		const filtEvents = await eventModel
