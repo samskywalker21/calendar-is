@@ -10,8 +10,10 @@
 		"prettier": "3.3.3"
 	},
 	"scripts": {
-		"frontend": "npm --prefix \"./../frontend\" run dev",
+		"frontendprev": "npm --prefix \"./../frontend\" run preview",
+		"frontenddev": "npm --prefix \"./../frontend\" run dev",
 		"backend": "nodemon app.js",
-		"start": "concurrently \"npm run frontend\" \"npm run backend\""
+		"start_dev": "concurrently \"npm run frontenddev\" \"npm run backend\"",
+		"start_prod": "concurrently \"npm run frontendprev\" \"npm run backend\""
 	}
 }
