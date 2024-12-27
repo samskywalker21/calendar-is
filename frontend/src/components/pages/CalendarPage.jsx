@@ -47,6 +47,7 @@ const CalendarPage = () => {
 			participants: obj.extendedProps.participants,
 			status: obj.status,
 			type: obj.extendedProps.type,
+			created_at: obj.extendedProps.created_at,
 		};
 		setViewEvent(event);
 	};

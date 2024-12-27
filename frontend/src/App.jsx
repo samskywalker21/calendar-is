@@ -62,6 +62,15 @@ function App() {
 					}}
 				>
 					<Header />
+					<div
+						style={{
+							backgroundColor: 'red',
+							paddingTop: 5,
+							color: 'white',
+						}}
+					>
+						<marquee>{`Activities with "N/A" as their "Date/Time Added" value were created before the "created_at" was tracked`}</marquee>
+					</div>
 					<Wrapper>
 						<Outlet />
 						<Snackbar
