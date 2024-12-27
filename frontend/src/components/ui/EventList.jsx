@@ -117,10 +117,16 @@ const EventList = () => {
 							>
 								Event Title
 							</TableCell>
-							<TableCell align='left' sx={{ width: 20 }}>
+							<TableCell
+								align='left'
+								sx={{ width: 200, minWidth: 200 }}
+							>
 								Start Date
 							</TableCell>
-							<TableCell align='left' sx={{ width: 20 }}>
+							<TableCell
+								align='left'
+								sx={{ width: 200, minWidth: 200 }}
+							>
 								End Date
 							</TableCell>
 							<TableCell align='left' sx={{ width: 20 }}>
@@ -140,6 +146,12 @@ const EventList = () => {
 								sx={{ width: 200, minWidth: 200 }}
 							>
 								Participants
+							</TableCell>
+							<TableCell
+								align='left'
+								sx={{ width: 200, minWidth: 200 }}
+							>
+								Date/Time Added
 							</TableCell>
 							<TableCell align='left' sx={{ width: 20 }}>
 								Status
@@ -176,11 +188,11 @@ const EventList = () => {
 							}
 
 							const startString = dayjs(row.start).format(
-								'MM/DD/YYYY HH:mm A',
+								'dddd, MMMM D, YYYY h:mm A',
 							);
 
 							const endString = dayjs(row.end).format(
-								'MM/DD/YYYY HH:mm A',
+								'dddd, MMMM D, YYYY h:mm A',
 							);
 
 							return (
@@ -235,6 +247,13 @@ const EventList = () => {
 									</TableCell>
 									<TableCell component='th' scope='row'>
 										{row.extendedProps.participants}
+									</TableCell>
+									<TableCell component='th' scope='row'>
+										{row.created_at
+											? dayjs(row.created_at).format(
+													'dd, MMMM D, YYYY h:mm A',
+												)
+											: 'N/A'}
 									</TableCell>
 									<TableCell component='th' scope='row'>
 										{row.status === 'P' ? (

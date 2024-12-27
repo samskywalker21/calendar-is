@@ -37,7 +37,15 @@ const ViewModal = ({ isOpen, changeModal, viewEvent }) => {
 				) : (
 					<DialogTitle>Monitoring Details</DialogTitle>
 				)}
-				<DialogContent>
+				<DialogContentText paddingLeft={3} paddingBottom={2}>
+					Date/Time Added:{' '}
+					{viewEvent.created_at != undefined
+						? dayjs(viewEvent.created_at)
+								.format('dddd, MMMM D, YYYY h:mm A')
+								.toString()
+						: 'N/A'}
+				</DialogContentText>
+				<DialogContent dividers>
 					<DialogContentText>
 						<Box width={500}>
 							<Grid container spacing={2}>

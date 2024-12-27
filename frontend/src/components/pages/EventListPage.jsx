@@ -16,7 +16,7 @@ function EventListPage() {
 
 	return (
 		<>
-			<Container>
+			<Container maxWidth='xl'>
 				<Stack spacing={2}>
 					<EventListSearch />
 					<EventList />
