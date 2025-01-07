@@ -42,7 +42,7 @@ const getPendingEvents = async (req, res, next) => {
 const getSortedEvents = async (req, res, next) => {
 	const filteredEvent = await eventModel
 		.find({})
-		.sort({ start: -1 })
+		.sort({ created_at: -1 })
 		.limit(10)
 		.exec()
 		.then((data) => {
@@ -109,8 +109,9 @@ const addEvent = async (req, res, next) => {
 };
 
 const searchEvent = async (req, res, next) => {
+	console.log(req.query);
 	const titleString = req.params.title || '';
-	if (titleString != '') {
+	if (titleString != '' && (req.query.start == '' || req.query.end == '')) {
 		const escapedTitle = titleString.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 		const filtEvents = await eventModel
 			.find({
@@ -119,6 +120,22 @@ const searchEvent = async (req, res, next) => {
 			.then((data) => {
 				return data;
 			});
+		res.json(filtEvents);
+	}
+	if (titleString != '' && (req.query.start != '' || req.query.end != '')) {
+		const escapedTitle = titleString.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+		const filtEvents = await eventModel
+			.find({
+				title: { $regex: '.*' + escapedTitle + '.*', $options: 'i' },
+				start: {
+					$gte: req.query.start,
+					$lte: req.query.end,
+				},
+			})
+			.then((data) => {
+				return data;
+			});
+		// console.log(filtEvents);
 		res.json(filtEvents);
 	}
 };

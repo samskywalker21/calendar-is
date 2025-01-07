@@ -14,6 +14,8 @@ function CalendarMonthComponent({ changeModal, changeViewEvent }) {
 			<FullCalendar
 				timeZone='UTC'
 				nextDayThreshold={'00:00:00'}
+				contentHeight={800}
+				aspectRatio={2.5}
 				plugins={[dayGridPlugin]}
 				initialView='dayGridMonth'
 				displayEventEnd={false}

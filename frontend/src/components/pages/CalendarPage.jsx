@@ -82,7 +82,7 @@ const CalendarPage = () => {
 				changeModal={changeModal}
 				viewEvent={viewEvent}
 			/>
-			<Container maxWidth='lg'>
+			<Container maxWidth>
 				<Stack direction={'row'} marginBottom={4} paddingX={20}>
 					<FormGroup row>
 						<FormControlLabel
