@@ -109,7 +109,6 @@ const addEvent = async (req, res, next) => {
 };
 
 const searchEvent = async (req, res, next) => {
-	console.log(req.query);
 	const titleString = req.params.title || '';
 	if (titleString != '' && (req.query.start == '' || req.query.end == '')) {
 		const escapedTitle = titleString.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
