@@ -18,7 +18,7 @@ app.use('/event', eventRoute);
 app.use('/auth', userRoute);
 
 // DB Connection and Server Start
-const dbURI = 'mongodb://localhost:27017/calendarDB';
+const dbURI = 'mongodb://0.0.0.0:27017/calendarDB';
 mongoose
 	.connect(dbURI)
 	.then(() => {

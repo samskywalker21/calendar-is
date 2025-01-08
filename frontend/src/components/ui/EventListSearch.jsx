@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import { Button, Grid, TextField } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -10,94 +10,94 @@ import useEventStore from '../../stores/eventStore';
 
 const EventListSearch = () => {
 	const setEventList = useEventStore((state) => state.updateListEvents);
-	const searchRef = useRef('');
-	const startRef = useRef('');
-	const endRef = useRef('');
 
-	const [startDate, setStart] = useState('');
-	const [endDate, setEnd] = useState('');
-	const [searchString, setString] = useState('');
-
-	const handleChange = () => {
-		setString(searchRef.current.value);
-	};
-
-	const handleStartChange = () => {
-		setStart(startRef.current.value);
-	};
-
-	const handleEndChange = () => {
-		setEnd(endRef.current.value);
-	};
+	const [searchString, setSearchString] = useState('');
+	const [startDate, setStartDate] = useState(null);
+	const [endDate, setEndDate] = useState(null);
 
 	useEffect(() => {
-		searchString.length == 0
-			? axios({
-					method: 'GET',
-					url: `http://${
-						import.meta.env.VITE_BACKEND_ADD
-					}/event/sorted`,
-				}).then((res) => {
-					setEventList(res.data);
-				})
-			: axios({
-					method: 'GET',
-					url: `http://${
-						import.meta.env.VITE_BACKEND_ADD
-					}/event/event/${searchString}?start=${startRef.current.value != '' ? new Date(startRef.current.value).toISOString() : ''}&end=${endRef.current.value != '' ? new Date(endRef.current.value).toISOString() : ''}`,
-				}).then((res) => {
-					setEventList(res.data);
-				});
+		const fetchEvents = async () => {
+			try {
+				let url = `http://${import.meta.env.VITE_BACKEND_ADD}/event/`;
+
+				if (!searchString) {
+					url += 'sorted';
+				} else {
+					const params = new URLSearchParams();
+					params.append('search', searchString);
+
+					if (startDate) {
+						params.append(
+							'start',
+							new Date(startDate).toISOString(),
+						);
+					}
+					if (endDate) {
+						params.append('end', new Date(endDate).toISOString());
+					}
+
+					url += `event/${searchString}?${params.toString()}`;
+				}
+
+				const response = await axios.get(url);
+				setEventList(response.data);
+			} catch (error) {
+				console.error('Error fetching events:', error);
+			}
+		};
+
+		fetchEvents();
 	}, [searchString, startDate, endDate]);
 
+	const handleClear = () => {
+		setSearchString('');
+		setStartDate(null);
+		setEndDate(null);
+	};
+
 	return (
-		<>
+		<form>
 			<LocalizationProvider dateAdapter={AdapterDayjs}>
 				<Grid container spacing={2}>
-					<Grid item md='6'>
+					<Grid item md={6}>
 						<TextField
 							variant='outlined'
 							type='text'
 							label='Search Event Name'
 							size='large'
-							onChange={handleChange}
-							inputRef={searchRef}
-							defaultValue={searchString}
+							value={searchString}
+							onChange={(e) => setSearchString(e.target.value)}
 							fullWidth
 						/>
 					</Grid>
 					<Grid item>
 						<DatePicker
 							label='From'
-							size='small'
-							inputRef={startRef}
-							onChange={handleStartChange}
+							value={startDate}
+							onChange={(newValue) => setStartDate(newValue)}
+							renderInput={(params) => (
+								<TextField {...params} size='small' />
+							)}
 						/>
 					</Grid>
 					<Grid item>
 						<DatePicker
 							label='To'
-							size='small'
-							inputRef={endRef}
-							onChange={handleEndChange}
+							value={endDate}
+							onChange={(newValue) => setEndDate(newValue)}
+							renderInput={(params) => (
+								<TextField {...params} size='small' />
+							)}
 						/>
 					</Grid>
 					<Grid item>
-						<Button
-							size='large'
-							onClick={() => {
-								startRef.current.value = '';
-								endRef.current.value = '';
-								setStart('');
-								setEnd('');
-							}}
-						>
+						<Button size='large' type='reset' onClick={handleClear}>
 							Clear
 						</Button>
 					</Grid>
 				</Grid>
 			</LocalizationProvider>
-		</>
+		</form>
 	);
 };
 
