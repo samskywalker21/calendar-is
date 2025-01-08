@@ -39,6 +39,9 @@ const ordArray = [
 	<MenuItem value='Research' key={'Research'}>
 		ORD - Research
 	</MenuItem>,
+	<MenuItem value='ICTU' key='ICTU'>
+		ORD - ICTU
+	</MenuItem>,
 ];
 
 const lhsdArray = [
@@ -61,26 +64,26 @@ const lhsdArray = [
 		LHSD - EOH
 	</MenuItem>,
 	<MenuItem value='PDOHO BUKIDNON' key='PDOHO BUKIDNON'>
-	LHSD - PDOHO BUKIDNON
-</MenuItem>,
-<MenuItem value='PDOHO CAMIGUIN' key='PDOHO CAMIGUIN'>
-LHSD - PDOHO CAMIGUIN
-</MenuItem>,
-<MenuItem value='PDOHO LANAO DEL NORTE' key='PDOHO LANAO DEL NORTE'>
-	LHSD - PDOHO LANAO DEL NORTE
-</MenuItem>,
-<MenuItem value='PDOHO MISAMIS OCCIDENTAL' key='PDOHO MISAMIS OCCIDENTAL'>
-LHSD - PDOHO MISAMIS OCCIDENTAL
-</MenuItem>,
-<MenuItem value='PDOHO MISAMIS ORIENTAL' key='PDOHO MISAMIS ORIENTAL'>
-	LHSD - PDOHO MISAMIS ORIENTAL
-</MenuItem>,
-<MenuItem value='CDOHO CAGAYAN DE ORO' key='CDOHO CAGAYAN DE ORO'>
-LHSD - CDOHO CAGAYAN DE ORO
-</MenuItem>,
-<MenuItem value='CDOHO ILIGAN' key='CDOHO ILIGAN'>
-	LHSD - CDOHO ILIGAN
-</MenuItem>,
+		LHSD - PDOHO BUKIDNON
+	</MenuItem>,
+	<MenuItem value='PDOHO CAMIGUIN' key='PDOHO CAMIGUIN'>
+		LHSD - PDOHO CAMIGUIN
+	</MenuItem>,
+	<MenuItem value='PDOHO LANAO DEL NORTE' key='PDOHO LANAO DEL NORTE'>
+		LHSD - PDOHO LANAO DEL NORTE
+	</MenuItem>,
+	<MenuItem value='PDOHO MISAMIS OCCIDENTAL' key='PDOHO MISAMIS OCCIDENTAL'>
+		LHSD - PDOHO MISAMIS OCCIDENTAL
+	</MenuItem>,
+	<MenuItem value='PDOHO MISAMIS ORIENTAL' key='PDOHO MISAMIS ORIENTAL'>
+		LHSD - PDOHO MISAMIS ORIENTAL
+	</MenuItem>,
+	<MenuItem value='CDOHO CAGAYAN DE ORO' key='CDOHO CAGAYAN DE ORO'>
+		LHSD - CDOHO CAGAYAN DE ORO
+	</MenuItem>,
+	<MenuItem value='CDOHO ILIGAN' key='CDOHO ILIGAN'>
+		LHSD - CDOHO ILIGAN
+	</MenuItem>,
 ];
 
 const msdArray = [
@@ -110,9 +113,6 @@ const msdArray = [
 	</MenuItem>,
 	<MenuItem value='Transport/GSS' key='Transport/GSS'>
 		MSD - Transport/GSS
-	</MenuItem>,
-	<MenuItem value='ICTU' key='ICTU'>
-		MSD - ICTU
 	</MenuItem>,
 	<MenuItem value='Records' key='Records'>
 		MSD - Records
