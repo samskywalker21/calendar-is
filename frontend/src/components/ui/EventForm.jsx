@@ -1,11 +1,10 @@
-import { useState, useRef } from 'react';
-import { useContext } from 'react';
+import { useState, useContext } from 'react';
 
 // Context
 import EventContext from '../../context/EventContext';
 import useEventStore from '../../stores/eventStore';
 
-//UUID
+// UUID
 import { v4 as uuidv4 } from 'uuid';
 
 // Material UI
@@ -18,292 +17,255 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs from 'dayjs';
 import useNotifStore from '../../stores/notifStore';
 
-const ordArray = [
-	<MenuItem value='RESDRU' key={'RESDRU'}>
-		ORD - RESDRU
-	</MenuItem>,
-	<MenuItem value='Legal/PACD' key={'Legal/PACD'}>
-		ORD - Legal/PACD
-	</MenuItem>,
-	<MenuItem value='CHEPU' key={'CHEPU'}>
-		ORD - CHEPU
-	</MenuItem>,
-	<MenuItem value='HFDU' key={'HFDU'}>
-		ORD - HFDU
-	</MenuItem>,
-	<MenuItem value='Infra' key={'Infra'}>
-		ORD - Infra
-	</MenuItem>,
-	<MenuItem value='CMU' key={'CMU'}>
-		ORD - CMU
-	</MenuItem>,
-	<MenuItem value='Research' key={'Research'}>
-		ORD - Research
-	</MenuItem>,
-];
-
-const lhsdArray = [
-	<MenuItem value='LHSDC' key='LHSDC'>
-		LHSD - LHSDC
-	</MenuItem>,
-	<MenuItem value='DMU' key='DMU'>
-		LHSD - DMU
-	</MenuItem>,
-	<MenuItem value='NCDC' key='NCDC'>
-		LHSD - NCDC
-	</MenuItem>,
-	<MenuItem value='FHC' key='FHC'>
-		LHSD - FHC
-	</MenuItem>,
-	<MenuItem value='IDC' key='IDC'>
-		LHSD - IDC
-	</MenuItem>,
-	<MenuItem value='EOH' key='EOH'>
-		LHSD - EOH
-	</MenuItem>,
-	
-	<MenuItem value='PDOHO BUKIDNON' key='PDOHO BUKIDNON'>
-		LHSD - PDOHO BUKIDNON
-	</MenuItem>,
-	<MenuItem value='PDOHO CAMIGUIN' key='PDOHO CAMIGUIN'>
-	LHSD - PDOHO CAMIGUIN
-</MenuItem>,
-<MenuItem value='PDOHO LANAO DEL NORTE' key='PDOHO LANAO DEL NORTE'>
-		LHSD - PDOHO LANAO DEL NORTE
-	</MenuItem>,
-	<MenuItem value='PDOHO MISAMIS OCCIDENTAL' key='PDOHO MISAMIS OCCIDENTAL'>
-	LHSD - PDOHO MISAMIS OCCIDENTAL
-</MenuItem>,
-<MenuItem value='PDOHO MISAMIS ORIENTAL' key='PDOHO MISAMIS ORIENTAL'>
-		LHSD - PDOHO MISAMIS ORIENTAL
-	</MenuItem>,
-	<MenuItem value='CDOHO CAGAYAN DE ORO' key='CDOHO CAGAYAN DE ORO'>
-	LHSD - CDOHO CAGAYAN DE ORO
-</MenuItem>,
-<MenuItem value='CDOHO ILIGAN' key='CDOHO ILIGAN'>
-		LHSD - CDOHO ILIGAN
-	</MenuItem>,
-];
-
-const msdArray = [
-	<MenuItem value='Personnel' key='Personnel'>
-		MSD - Personnel
-	</MenuItem>,
-	<MenuItem value='HRDU' key='HRDU'>
-		MSD - HRDU
-	</MenuItem>,
-	<MenuItem value='Accounting' key='Accounting'>
-		MSD - Accounting
-	</MenuItem>,
-	<MenuItem value='Budget' key='Budget'>
-		MSD - Budget
-	</MenuItem>,
-	<MenuItem value='Cashier' key='Cashier'>
-		MSD - Cashier
-	</MenuItem>,
-	<MenuItem value='Planning' key='Planning'>
-		MSD - Planning
-	</MenuItem>,
-	<MenuItem value='Procurement' key='Procurement'>
-		MSD - Procurement
-	</MenuItem>,
-	<MenuItem value='Supply' key='Supply'>
-		MSD - Supply
-	</MenuItem>,
-	<MenuItem value='Transport/GSS' key='Transport/GSS'>
-		MSD - Transport/GSS
-	</MenuItem>,
-	<MenuItem value='ICTU' key='ICTU'>
-		MSD - ICTU
-	</MenuItem>,
-	<MenuItem value='Records' key='Records'>
-		MSD - Records
-	</MenuItem>,
-];
+const divisionOptions = {
+	ORD: [
+		'RESDRU',
+		'Legal/PACD',
+		'CHEPU',
+		'HFDU',
+		'Infra',
+		'CMU',
+		'Research',
+		'ICTU',
+	],
+	LHSD: [
+		'LHSDC',
+		'DMU',
+		'NCDC',
+		'FHC',
+		'IDC',
+		'EOH',
+		'PDOHO BUKIDNON',
+		'PDOHO CAMIGUIN',
+		'PDOHO LANAO DEL NORTE',
+		'PDOHO MISAMIS OCCIDENTAL',
+		'PDOHO MISAMIS ORIENTAL',
+		'CDOHO CAGAYAN DE ORO',
+		'CDOHO ILIGAN',
+	],
+	MSD: [
+		'Personnel',
+		'HRDU',
+		'Accounting',
+		'Budget',
+		'Cashier',
+		'Planning',
+		'Procurement',
+		'Supply',
+		'Transport/GSS',
+		'Records',
+	],
+	RLED: ['RLED'],
+};
 
 const EventForm = ({ handleClick }) => {
-	const [selectedDiv, updateSelectedDiv] = useState('ORD/ARD');
+	const [dateError, setDateError] = useState(false);
 	const eventObj = useContext(EventContext);
 	const setEventsList = useEventStore((state) => state.updateListEvents);
 	const openNotif = useNotifStore((state) => state.openNotif);
 
-	//Field Refs
-	const titleRef = useRef('');
-	const startDateRef = useRef('');
-	const endDateRef = useRef('');
-	const divRef = useRef('');
-	const csuRef = useRef('');
-	const csuHeadRef = useRef('');
-	const partiRef = useRef('');
-	const typeRef = useRef('');
+	// Form state
+	const [formData, setFormData] = useState({
+		title: '',
+		start: null,
+		end: null,
+		division: 'ORD',
+		csu: '',
+		csuHead: '',
+		participants: '',
+		type: 'E',
+	});
 
-	const clearRefs = () => {
-		titleRef.current.value = null;
-		startDateRef.current.value = null;
-		endDateRef.current.value = null;
-		divRef.current.value = null;
-		csuHeadRef.current.value = null;
-		partiRef.current.value = null;
-		updateSelectedDiv('ORD/ARD');
+	const isFormValid = () => {
+		return (
+			formData.title &&
+			formData.start &&
+			formData.end &&
+			!dateError &&
+			formData.division &&
+			formData.csu &&
+			formData.csuHead &&
+			formData.participants
+		);
+	};
+
+	const handleInputChange = (e) => {
+		const { name, value } = e.target;
+		setFormData((prev) => ({ ...prev, [name]: value }));
+	};
+
+	const handleDateChange = (name, value) => {
+		setFormData((prev) => ({ ...prev, [name]: value }));
+	};
+
+	const handleClear = () => {
+		setFormData({
+			title: '',
+			start: null,
+			end: null,
+			division: 'ORD',
+			csu: '',
+			csuHead: '',
+			participants: '',
+			type: 'E',
+		});
 	};
 
 	const addEventHandler = (e) => {
 		e.preventDefault();
 
-		// Fields Test
-		// console.log(e);
-		// for (let i = 0; i < e.target.length; i++) {
-		//     if (e.target[i].name != '')
-		//         console.log(
-		//             `Index: ${i}, Name: ${e.target[i].name}, Value: ${e.target[i].value}`
-		//         );
-		// }
+		if (!isFormValid()) {
+			openNotif('Please fill all required fields.', 'error');
+			return;
+		}
 
 		const newEvent = {
 			_id: uuidv4(),
-			title: titleRef.current.value,
-			start: dayjs(startDateRef.current.value).toISOString(),
-			end: dayjs(endDateRef.current.value).toISOString(),
+			title: formData.title,
+			start: dayjs(formData.start).toISOString(),
+			end: dayjs(formData.end).toISOString(),
 			backgroundColor: '#F57C00',
 			status: 'P',
-			type: typeRef.current.value,
+			type: formData.type,
 			extendedProps: {
-				division: divRef.current.value,
-				csu: csuRef.current.value,
-				csuHead: csuHeadRef.current.value,
-				participants: partiRef.current.value,
+				division: formData.division,
+				csu: formData.csu,
+				csuHead: formData.csuHead,
+				participants: formData.participants,
 			},
 		};
+
 		eventObj.addEvent(newEvent, setEventsList);
 		openNotif('Event has been added', 'success');
-		clearRefs();
+		handleClear();
 		handleClick();
 	};
 
 	return (
-		<>
-			<LocalizationProvider dateAdapter={AdapterDayjs}>
-				<Stack
-					direction={'column'}
-					spacing={2}
-					component={'form'}
-					onSubmit={addEventHandler}
+		<LocalizationProvider dateAdapter={AdapterDayjs}>
+			<Stack
+				direction='column'
+				spacing={2}
+				component='form'
+				onSubmit={addEventHandler}
+			>
+				<TextField
+					id='titleId'
+					name='title'
+					label='Event/Training Title'
+					required
+					value={formData.title}
+					onChange={handleInputChange}
+				/>
+				<TextField
+					id='typeId'
+					name='type'
+					label='Type'
+					select
+					required
+					value={formData.type}
+					onChange={handleInputChange}
 				>
-					<TextField
-						id='titleId'
-						name='title'
-						label='Event/Training Title'
-						required
-						defaultValue=''
-						inputRef={titleRef}
-					/>
-					<TextField
-						id='typeId'
-						name='type'
-						label='Type'
-						defaultValue='E'
-						inputRef={typeRef}
-						select
-						required
+					<MenuItem value='E'>Event</MenuItem>
+					<MenuItem value='M'>Monitoring</MenuItem>
+				</TextField>
+				<DateTimePicker
+					label='Start Date'
+					value={formData.start}
+					onChange={(value) => handleDateChange('start', value)}
+					renderInput={(params) => <TextField {...params} required />}
+				/>
+				<DateTimePicker
+					label='End Date'
+					value={formData.end}
+					onChange={(value) => {
+						// Ensure both dates are valid before comparison
+						console.log('Start Date:', formData.start);
+						console.log('End Date:', value);
+						if (formData.start && value) {
+							const isInvalidDate = dayjs(value).isBefore(
+								dayjs(formData.start),
+							);
+							setDateError(isInvalidDate); // Update error state
+						}
+						handleDateChange('end', value); // Always update the state
+					}}
+					renderInput={(params) => (
+						<TextField
+							{...params}
+							required
+							error={dateError}
+							helperText={
+								dateError
+									? 'End Date must not be earlier than Start Date'
+									: ''
+							}
+						/>
+					)}
+				/>
+				<TextField
+					id='divisionId'
+					name='division'
+					label='Division'
+					select
+					required
+					value={formData.division}
+					onChange={handleInputChange}
+				>
+					{Object.keys(divisionOptions).map((div) => (
+						<MenuItem key={div} value={div}>
+							{div}
+						</MenuItem>
+					))}
+				</TextField>
+				<TextField
+					id='csuId'
+					name='csu'
+					label='Cluster/Section/Unit'
+					select
+					required
+					value={formData.csu}
+					onChange={handleInputChange}
+				>
+					{divisionOptions[formData.division]?.map((unit) => (
+						<MenuItem key={unit} value={unit}>
+							{unit}
+						</MenuItem>
+					))}
+				</TextField>
+				<TextField
+					id='csuHeadId'
+					name='csuHead'
+					label='Program Manager/C/S/U Head'
+					required
+					value={formData.csuHead}
+					onChange={handleInputChange}
+				/>
+				<TextField
+					id='participants'
+					name='participants'
+					label='Participants/Facilities'
+					required
+					multiline
+					value={formData.participants}
+					onChange={handleInputChange}
+				/>
+				<Stack spacing={1}>
+					<Button type='submit' variant='contained' fullWidth>
+						Add Event
+					</Button>
+					<Button
+						type='button'
+						variant='contained'
+						color='warning'
+						fullWidth
+						onClick={handleClear}
 					>
-						<MenuItem value='E'>Event</MenuItem>
-						<MenuItem value='M'>Monitoring</MenuItem>
-					</TextField>
-					<DateTimePicker
-						label='Start Date'
-						name='startDate'
-						id='startDateId'
-						// defaultValue=''
-						inputRef={startDateRef}
-						required
-					/>
-					<DateTimePicker
-						label='End Date'
-						name='endDate'
-						id='endDateId'
-						// defaultValue=''
-						inputRef={endDateRef}
-						required
-					/>
-					<TextField
-						id='divisionId'
-						name='division'
-						label='Division'
-						defaultValue={selectedDiv}
-						inputRef={divRef}
-						select
-						required
-						onChange={(e) => {
-							updateSelectedDiv(e.target.value);
-						}}
-					>
-						<MenuItem value='ORD/ARD'>ORD/ARD</MenuItem>
-						<MenuItem value='LHSD'>LHSD</MenuItem>
-						<MenuItem value='RLED'>RLED</MenuItem>
-						<MenuItem value='MSD'>MSD</MenuItem>
-					</TextField>
-					<TextField
-						id='csuId'
-						name='csu'
-						label='Cluster/Section/Unit'
-						defaultValue=''
-						inputRef={csuRef}
-						select
-						required
-					>
-						{selectedDiv === 'ORD/ARD'
-							? ordArray.map((row) => row)
-							: null}
-						{selectedDiv === 'LHSD'
-							? lhsdArray.map((row) => row)
-							: null}
-						{selectedDiv === 'RLED' ? (
-							<MenuItem value='RLED'>RLED</MenuItem>
-						) : null}
-						{selectedDiv === 'MSD'
-							? msdArray.map((row) => row)
-							: null}
-					</TextField>
-					<TextField
-						id='csuHeadId'
-						name='csuHead'
-						label='Program Manager/C/S/U Head'
-						defaultValue=''
-						inputRef={csuHeadRef}
-						required
-					/>
-					<TextField
-						id='participants'
-						name='participants'
-						label='Participants/Facilities'
-						defaultValue=''
-						inputRef={partiRef}
-						multiline
-						required
-					/>
-					<Stack spacing={1}>
-						<Button
-							type='submit'
-							label='Add Event'
-							variant='contained'
-							fullWidth
-						>
-							Add Event
-						</Button>
-						<Button
-							type='button'
-							label='Clear'
-							variant='contained'
-							color='warning'
-							fullWidth
-							onClick={clearRefs}
-						>
-							Clear
-						</Button>
-					</Stack>
+						Clear
+					</Button>
 				</Stack>
-			</LocalizationProvider>
-		</>
+			</Stack>
+		</LocalizationProvider>
 	);
 };
 
