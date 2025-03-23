@@ -69,7 +69,7 @@ function App() {
 							color: 'white',
 						}}
 					>
-						<marquee>{`Activities with "N/A" as their "Date/Time Added" value were created before the "created_at" was tracked`}</marquee>
+						<marquee>{`Events now need to be Approved with PR to be marked as Green in the Calendar. For Admins, With PR button appears when Event is cleared by HRDU.`}</marquee>
 					</div>
 					<Wrapper>
 						<Outlet />

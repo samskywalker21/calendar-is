@@ -310,12 +310,13 @@ const addWithPR = async (req, res, next) => {
 		);
 
 		// Optionally, log the results
-		console.log(allApproved, allApproved2, allApproved3);
+		res.json(allApproved, allApproved2, allApproved3);
 	} catch (error) {
-		console.error('Error updating events:', error);
+		res.json(JSON.stringify('Error updating events:', error));
 	}
 };
 
+//Exports
 exports.getAllEvents = getAllEvents;
 exports.getEvent = getEvent;
 exports.addEvent = addEvent;
