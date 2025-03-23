@@ -18,6 +18,8 @@ router.get('/update/eventtype', EventController.addEventsType);
 
 router.get('/update/eventcolors', EventController.updateEventColors);
 
+router.get('/update/withPR', EventController.addWithPR);
+
 router.get('/:id', EventController.getEvent);
 
 router.put('/:id', EventController.updateEvent);

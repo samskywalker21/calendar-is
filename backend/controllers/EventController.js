@@ -91,6 +91,7 @@ const addEvent = async (req, res, next) => {
 		// Create a new event instance
 		const event = new eventModel({
 			...newEvent,
+			withPR: false,
 			created_at: timeStamp.toISOString(), // Convert timestamp to ISO format
 		});
 
@@ -159,7 +160,7 @@ const updateStatus = async (req, res, next) => {
 		const updatedEvent = await eventModel
 			.findOneAndUpdate(
 				{ _id: id },
-				{ status: 'A', backgroundColor: '#27632A' },
+				{ status: 'A', backgroundColor: '#2196f3' },
 			)
 			.then(() => {
 				res.json({ message: 'Event updated' });
@@ -204,6 +205,20 @@ const updateStatus = async (req, res, next) => {
 				res.json({ message: 'Event not found' });
 			});
 	}
+
+	if (action === 'withPR') {
+		const updatedEvent = await eventModel
+			.findOneAndUpdate(
+				{ _id: id },
+				{ backgroundColor: '#27632A', withPR: true },
+			)
+			.then(() => {
+				res.json({ message: 'Event updated' });
+			})
+			.catch(() => {
+				res.json({ message: 'Event not found' });
+			});
+	}
 };
 
 const endEvents = async (req, res, next) => {
@@ -220,6 +235,9 @@ const endEvents = async (req, res, next) => {
 	res.send(events);
 };
 
+//Migrations
+
+//Adding Event Types
 const addEventsType = async (req, res, next) => {
 	try {
 		// Await the result of the updateMany operation
@@ -238,6 +256,7 @@ const addEventsType = async (req, res, next) => {
 	}
 };
 
+//Updating Event Colors
 const updateEventColors = async (req, res, next) => {
 	try {
 		// Perform both updates concurrently using Promise.all for better performance
@@ -270,6 +289,34 @@ const updateEventColors = async (req, res, next) => {
 	}
 };
 
+//Add With PR Column (default False for Pending, default True for Approved)
+const addWithPR = async (req, res, next) => {
+	try {
+		// Update events with status 'A' and type 'E'
+		const allApproved = await eventModel.updateMany(
+			{ status: 'A', type: 'E' },
+			{ $set: { withPR: true } },
+		);
+
+		// Update events with status 'A' and type 'M'
+		const allApproved2 = await eventModel.updateMany(
+			{ status: 'A', type: 'M' },
+			{ $set: { withPR: false } },
+		);
+
+		// Update events with status 'P'
+		const allApproved3 = await eventModel.updateMany(
+			{ status: 'P' },
+			{ $set: { withPR: false } },
+		);
+
+		// Optionally, log the results
+		console.log(allApproved, allApproved2, allApproved3);
+	} catch (error) {
+		console.error('Error updating events:', error);
+	}
+};
+
 exports.getAllEvents = getAllEvents;
 exports.getEvent = getEvent;
 exports.addEvent = addEvent;
@@ -283,3 +330,4 @@ exports.updateEvent = updateEvent;
 exports.endEvents = endEvents;
 exports.addEventsType = addEventsType;
 exports.updateEventColors = updateEventColors;
+exports.addWithPR = addWithPR;

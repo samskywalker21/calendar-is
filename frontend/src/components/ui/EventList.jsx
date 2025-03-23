@@ -28,12 +28,14 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import ReplayIcon from '@mui/icons-material/Replay';
 import useEventStore from '../../stores/eventStore';
+import CheckIcon from '@mui/icons-material/Check';
 
 import { Link } from 'react-router-dom';
 
 const EventList = () => {
 	const loginObj = useContext(LoginContext);
 	const allEvents = useEventStore((state) => state.listEvents);
+	console.log(allEvents);
 
 	const [modalProps, setModalProps] = useState({
 		open: false,
@@ -65,6 +67,18 @@ const EventList = () => {
 					title: 'Approve',
 					message: 'Are you sure you want to approve this event?',
 					action: 'Approve',
+					handleClick: () => {
+						closeModal();
+					},
+				});
+				break;
+			case 'withPR':
+				setModalProps({
+					open: true,
+					_id: id,
+					title: 'With PR',
+					message: 'Does this event have an Approved PR?',
+					action: 'withPR',
 					handleClick: () => {
 						closeModal();
 					},
@@ -317,6 +331,26 @@ const EventList = () => {
 														sx={{ minWidth: 10 }}
 													>
 														<ThumbUpIcon />
+													</Button>
+												) : (
+													''
+												)}
+												{row.status === 'A' &&
+												row.type === 'E' &&
+												row.withPR === false ? (
+													<Button
+														variant='contained'
+														color='success'
+														onClick={() =>
+															handleButtonClick(
+																row._id,
+																'withPR',
+															)
+														}
+														size='small'
+														sx={{ minWidth: 10 }}
+													>
+														<CheckIcon />
 													</Button>
 												) : (
 													''

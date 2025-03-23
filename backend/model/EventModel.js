@@ -7,8 +7,9 @@ const eventSchema = new mongoose.Schema({
 	end: String,
 	backgroundColor: String,
 	status: String,
-	type: 'String',
+	type: String,
 	created_at: String,
+	withPR: Boolean,
 	extendedProps: {
 		division: String,
 		csu: String,

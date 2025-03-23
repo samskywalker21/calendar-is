@@ -43,6 +43,9 @@ const ActionModal = (props) => {
 			case 'Approve':
 				openNotif('Event has been approved!', 'success');
 				break;
+			case 'withPR':
+				openNotif('Event is with PR!', 'success');
+				break;
 			case 'Disapprove':
 				openNotif('Event has been disapproved!', 'error');
 				break;
