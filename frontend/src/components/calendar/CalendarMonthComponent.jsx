@@ -6,6 +6,8 @@ import useEventStore from '../../stores/eventStore';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 
+import '../../calendar-css.css';
+
 function CalendarMonthComponent({ changeModal, changeViewEvent }) {
 	const events = useEventStore((state) => state.calendarEvents);
 
