@@ -195,7 +195,7 @@ const updateStatus = async (req, res, next) => {
 		const updatedEvent = await eventModel
 			.findOneAndUpdate(
 				{ _id: id },
-				{ status: 'P', backgroundColor: '#F57C00' },
+				{ status: 'P', backgroundColor: '#F57C00', withPR: false },
 			)
 			.then(() => {
 				res.json({ message: 'Event updated' });

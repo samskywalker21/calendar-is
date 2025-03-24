@@ -71,7 +71,9 @@ const ActionModal = (props) => {
 					<DialogContentText>{message}</DialogContentText>
 				</DialogContent>
 				<DialogActions>
-					<Button onClick={actionHandler}>{action}</Button>
+					<Button onClick={actionHandler}>
+						{action === 'withPR' ? 'Accept' : action}
+					</Button>
 					<Button onClick={handleClick}>Cancel</Button>
 				</DialogActions>
 			</Dialog>

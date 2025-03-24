@@ -279,7 +279,11 @@ const EventList = () => {
 										) : row.status === 'A' ? (
 											<Chip
 												variant='filled'
-												label='Approved'
+												label={
+													row.withPR === true
+														? 'Approved with PR'
+														: 'Approved'
+												}
 												color='success'
 											/>
 										) : row.status === 'D' ? (
