@@ -110,35 +110,67 @@ const addEvent = async (req, res, next) => {
 };
 
 const searchEvent = async (req, res, next) => {
-	const titleString = req.params.title || '';
-	if (titleString != '' && (req.query.start == '' || req.query.end == '')) {
+	try {
+		const titleString = req.params.title || '';
+		const { start, end } = req.query;
+
+		if (!titleString) {
+			return res.status(400).json({ message: 'Title is required.' });
+		}
+
 		const escapedTitle = titleString.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-		const filtEvents = await eventModel
-			.find({
-				title: { $regex: '.*' + escapedTitle + '.*', $options: 'i' },
-			})
-			.then((data) => {
-				return data;
-			});
+		const regexQuery = {
+			title: { $regex: '.*' + escapedTitle + '.*', $options: 'i' },
+		};
+
+		let dateFilter = {};
+		if (start || end) {
+			dateFilter = {
+				start: { $gte: start || new Date(0), $lte: end || new Date() },
+			};
+		}
+
+		const filtEvents = await eventModel.find({
+			...regexQuery,
+			...dateFilter,
+		});
 		res.json(filtEvents);
-	}
-	if (titleString != '' && (req.query.start != '' || req.query.end != '')) {
-		const escapedTitle = titleString.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-		const filtEvents = await eventModel
-			.find({
-				title: { $regex: '.*' + escapedTitle + '.*', $options: 'i' },
-				start: {
-					$gte: req.query.start,
-					$lte: req.query.end,
-				},
-			})
-			.then((data) => {
-				return data;
-			});
-		// console.log(filtEvents);
-		res.json(filtEvents);
+	} catch (error) {
+		console.error('Error searching events:', error);
+		res.status(500).json({ message: 'Internal server error.' });
 	}
 };
+
+// const searchEvent = async (req, res, next) => {
+// 	const titleString = req.params.title || '';
+// 	if (titleString != '' && (req.query.start == '' || req.query.end == '')) {
+// 		const escapedTitle = titleString.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+// 		const filtEvents = await eventModel
+// 			.find({
+// 				title: { $regex: '.*' + escapedTitle + '.*', $options: 'i' },
+// 			})
+// 			.then((data) => {
+// 				return data;
+// 			});
+// 		res.json(filtEvents);
+// 	}
+// 	if (titleString != '' && (req.query.start != '' || req.query.end != '')) {
+// 		const escapedTitle = titleString.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+// 		const filtEvents = await eventModel
+// 			.find({
+// 				title: { $regex: '.*' + escapedTitle + '.*', $options: 'i' },
+// 				start: {
+// 					$gte: req.query.start,
+// 					$lte: req.query.end,
+// 				},
+// 			})
+// 			.then((data) => {
+// 				return data;
+// 			});
+// 		// console.log(filtEvents);
+// 		res.json(filtEvents);
+// 	}
+// };
 
 const updateEvent = async (req, res, next) => {
 	const id = req.params.id;
@@ -155,20 +187,36 @@ const updateStatus = async (req, res, next) => {
 	const id = req.params.id;
 	const action = req.body.action;
 
-	if (action === 'Approve') {
-		const updatedEvent = await eventModel
-			.findOneAndUpdate(
-				{ _id: id },
-				{ status: 'A', backgroundColor: '#2196f3' },
-			)
-			.then(() => {
-				res.json({ message: 'Event updated' });
-			})
-			.catch(() => {
-				res.json({ message: 'Event not found' });
-			});
-	}
+	const ifEvent = await eventModel.findOne({ _id: id }).exec();
 
+	if (action === 'Approve') {
+		if (ifEvent.type === 'E') {
+			const updatedEvent = await eventModel
+				.findOneAndUpdate(
+					{ _id: id },
+					{ status: 'A', backgroundColor: '#2196f3' },
+				)
+				.then(() => {
+					res.json({ message: 'Event updated' });
+				})
+				.catch(() => {
+					res.json({ message: 'Event not found' });
+				});
+		}
+		if (ifEvent.type === 'M') {
+			const updatedEvent = await eventModel
+				.findOneAndUpdate(
+					{ _id: id },
+					{ status: 'A', backgroundColor: '#27632A' },
+				)
+				.then(() => {
+					res.json({ message: 'Event updated' });
+				})
+				.catch(() => {
+					res.json({ message: 'Event not found' });
+				});
+		}
+	}
 	if (action === 'Disapprove') {
 		const updatedEvent = await eventModel
 			.findOneAndUpdate({ _id: id }, { status: 'D' })

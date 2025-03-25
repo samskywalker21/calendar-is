@@ -15,17 +15,16 @@ const EventListSearch = () => {
 	const [startDate, setStartDate] = useState(null);
 	const [endDate, setEndDate] = useState(null);
 
+	let url = `http://${import.meta.env.VITE_BACKEND_ADD}/event/`;
+
 	useEffect(() => {
 		const fetchEvents = async () => {
 			try {
-				let url = `http://${import.meta.env.VITE_BACKEND_ADD}/event/`;
-
 				if (!searchString) {
 					url += 'sorted';
 				} else {
 					const params = new URLSearchParams();
 					params.append('search', searchString);
-
 					if (startDate) {
 						params.append(
 							'start',
@@ -35,8 +34,8 @@ const EventListSearch = () => {
 					if (endDate) {
 						params.append('end', new Date(endDate).toISOString());
 					}
-
-					url += `event/${searchString}?${params.toString()}`;
+					url += `search/${searchString}?${params.toString()}`;
+					// url += `search/${searchString}`;
 				}
 
 				const response = await axios.get(url);

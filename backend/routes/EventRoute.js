@@ -6,7 +6,7 @@ router.get('/', EventController.getAllEvents);
 
 router.get('/end', EventController.endEvents);
 
-router.get('/event/:title', EventController.searchEvent);
+router.get('/search/:title', EventController.searchEvent);
 
 router.get('/pending', EventController.getPendingEvents);
 
