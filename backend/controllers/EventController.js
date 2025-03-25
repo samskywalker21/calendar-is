@@ -342,19 +342,19 @@ const addWithPR = async (req, res, next) => {
 		// Update events with status 'A' and type 'E'
 		const allApproved = await eventModel.updateMany(
 			{ status: 'A', type: 'E' },
-			{ $set: { withPR: true } },
+			{ $set: { withPR: true, backgroundColor: '#27632A' } },
 		);
 
 		// Update events with status 'A' and type 'M'
 		const allApproved2 = await eventModel.updateMany(
 			{ status: 'A', type: 'M' },
-			{ $set: { withPR: false } },
+			{ $set: { withPR: false, backgroundColor: '#27632A' } },
 		);
 
 		// Update events with status 'P'
 		const allApproved3 = await eventModel.updateMany(
 			{ status: 'P' },
-			{ $set: { withPR: false } },
+			{ $set: { withPR: false, backgroundColor: '#F57C00' } },
 		);
 
 		// Optionally, log the results
